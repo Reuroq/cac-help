@@ -1,0 +1,185 @@
+{
+  "windows": {
+    "slug": "windows",
+    "title": "Set up CAC on Windows 10 / 11",
+    "summary": "Get your CAC reader recognized and your DoD certificates installed on Windows in about 15 minutes.",
+    "estimatedMinutes": 15,
+    "steps": [
+      {
+        "title": "Plug in your CAC reader",
+        "body": "Plug your USB CAC reader into a port directly on your PC (not through a hub). Windows ships with built-in drivers for most modern readers — wait ~30 seconds for the device to install. Open Device Manager and confirm your reader appears under 'Smart card readers'. If it shows a yellow exclamation, see Troubleshooting > unrecognized reader."
+      },
+      {
+        "title": "Install DoD certificates",
+        "body": "Download the InstallRoot tool from DISA's PKI page (cyber.mil → PKI/PKE → Tools). Run InstallRoot, choose 'Install DoD Certificates' for the Current User store, and let it complete. This is what 99% of '403.7' / 'certificate required' errors are about."
+      },
+      {
+        "title": "Install ActivClient (if your agency requires it)",
+        "body": "Most users on Windows 10/11 do NOT need ActivClient — the built-in Microsoft smart card driver works. You only need ActivClient if your agency mandates it (some Army/Navy environments) or if you're activating PIV. If unsure, skip this step and only install ActivClient if a specific app fails."
+      },
+      {
+        "title": "Insert your CAC and test",
+        "body": "Insert your CAC chip-first, gold contacts up. Navigate to a .mil site that requires CAC auth (e.g., webmail.apps.mil). When prompted, select the right certificate: EMAIL for webmail, IDENTITY/AUTH for general sign-on, SIGNATURE for PDF signing."
+      },
+      {
+        "title": "Set your clock and timezone",
+        "body": "Half of 'Error 117' / 'Error 310' reports are a clock that's off by more than 5 minutes. Settings → Time & language → Date & time → 'Set time automatically' and 'Set time zone automatically' both ON."
+      }
+    ],
+    "commonProblems": [
+      {"problem": "Reader not detected", "fix": "Try a different USB port. Open Device Manager → right-click 'Smart card readers' → Scan for hardware changes."},
+      {"problem": "Wrong cert selected (403.7)", "fix": "Close all browsers. Open a new browser, navigate to the site, and pick the certificate matching what the site is for (EMAIL/IDENTITY/SIGNATURE)."},
+      {"problem": "Edge / Chrome won't prompt for cert", "fix": "Open Settings → Privacy → Clear browsing data → SSL state. Restart browser."}
+    ]
+  },
+  "macos": {
+    "slug": "macos",
+    "title": "Set up CAC on macOS",
+    "summary": "macOS has built-in smart card support since 10.12. With the right cert bundle and Safari, you can be on .mil sites in 10 minutes.",
+    "estimatedMinutes": 10,
+    "steps": [
+      {
+        "title": "Plug in your CAC reader",
+        "body": "Most readers work driverless on macOS via PCSC. Plug in, wait ~15 seconds. To confirm: System Information → USB — your reader should appear."
+      },
+      {
+        "title": "Download the DoD All Certs Bundle for macOS",
+        "body": "From cyber.mil → PKI/PKE → Tools, download 'AllCerts.zip' or the .pkg installer for macOS. Unzip if needed."
+      },
+      {
+        "title": "Install certificates into Keychain",
+        "body": "Double-click each .cer file (or run the .pkg). Keychain Access opens — install into the SYSTEM keychain (not Login), enter your admin password. Then in Keychain Access, find each DoD Root CA, right-click → Get Info → Trust → set 'When using this certificate' to 'Always Trust'."
+      },
+      {
+        "title": "Use Safari (recommended) or Firefox",
+        "body": "Safari uses Keychain natively and 'just works' for CAC. Chrome on macOS is unreliable for CAC (see Error 141). Firefox works but needs the DoD certs imported into Firefox's own cert store separately."
+      },
+      {
+        "title": "Insert CAC and authenticate",
+        "body": "Insert your CAC, browse to a .mil site, pick your cert when prompted. If Safari doesn't prompt, open Keychain Access — your CAC certs should appear under a 'pivtoken' or similar smart-card keychain."
+      }
+    ],
+    "commonProblems": [
+      {"problem": "Chrome unreliable", "fix": "Use Safari or Firefox. If you must use Chrome, install Thursby PKard ($30) for a proper middleware experience."},
+      {"problem": "Cert not trusted", "fix": "Open Keychain Access, find DoD Root CA 3 / 4 / 5 / 6, set Trust to Always Trust."},
+      {"problem": "Cached cert", "fix": "Open Keychain Access → delete old DoD certs and re-import."}
+    ]
+  },
+  "linux": {
+    "slug": "linux",
+    "title": "Set up CAC on Linux",
+    "summary": "Linux CAC support is excellent if you know what to install. Works on Ubuntu, Fedora, Arch, and most distros.",
+    "estimatedMinutes": 20,
+    "steps": [
+      {
+        "title": "Install packages",
+        "body": "Ubuntu / Debian: 'sudo apt install pcscd pcsc-tools libccid opensc libnss3-tools'. Fedora: 'sudo dnf install pcsc-lite pcsc-tools ccid opensc nss-tools'. Then enable pcscd: 'sudo systemctl enable --now pcscd'."
+      },
+      {
+        "title": "Verify the reader",
+        "body": "Run 'pcsc_scan' in a terminal with your CAC inserted. You should see your reader name and 'Card inserted' with an ATR. If you see 'No reader found', your reader needs a different driver — check the readers page."
+      },
+      {
+        "title": "Install DoD certificates",
+        "body": "Download AllCerts.zip from cyber.mil. Unzip. Import each .cer into your browser's NSS store: 'certutil -d sql:$HOME/.pki/nssdb -A -t TC -n \"DoD Root CA 3\" -i DoD_Root_CA_3.cer' (repeat per cert)."
+      },
+      {
+        "title": "Register the PKCS#11 module in Firefox/Chrome",
+        "body": "Firefox: Preferences → Privacy & Security → Security Devices → Load. Module name: OpenSC, file: /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so (path varies). Chrome reads the same NSS store as the certutil command above."
+      },
+      {
+        "title": "Test",
+        "body": "Insert CAC, open Firefox, browse to a .mil site. Firefox will ask you to unlock the token (your CAC PIN). Select the right certificate when prompted."
+      }
+    ],
+    "commonProblems": [
+      {"problem": "pcsc_scan shows reader but no card", "fix": "Reseat the CAC. Make sure chip side is correct. Some cheap readers need a firmware update."},
+      {"problem": "Firefox doesn't prompt for PIN", "fix": "Re-load the OpenSC PKCS#11 module. Restart Firefox."},
+      {"problem": "Chrome can't see CAC", "fix": "Run 'modutil -dbdir sql:$HOME/.pki/nssdb -add \"CAC Module\" -libfile /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so' then restart Chrome."}
+    ]
+  },
+  "ios": {
+    "slug": "ios",
+    "title": "Use CAC on iPhone / iPad",
+    "summary": "Yes, you can authenticate to .mil sites and sign email from your iPhone or iPad with a Lightning or USB-C CAC reader.",
+    "estimatedMinutes": 15,
+    "steps": [
+      {
+        "title": "Get the right reader",
+        "body": "You need a reader that supports iOS. Options: SCR3500 with iOS adapter, Thursby PKard Reader (Lightning), Identiv SCR3500-A with USB-C adapter for newer iPads. Bluetooth options exist but are flaky."
+      },
+      {
+        "title": "Install DoD profile",
+        "body": "Download the DoD certs configuration profile from cyber.mil onto your iOS device (Safari handles this best). Settings → General → VPN & Device Management → install the profile. Trust it."
+      },
+      {
+        "title": "Install a CAC-aware app",
+        "body": "For most use cases, install 'PIV' or 'PKard' from the App Store. These act as middleware between your reader and Safari / Mail."
+      },
+      {
+        "title": "Authenticate",
+        "body": "Plug in reader → insert CAC → open Safari → navigate to .mil site → the app intercepts the cert request and prompts for your PIN."
+      }
+    ],
+    "commonProblems": [
+      {"problem": "Reader not recognized", "fix": "Most readers need a Lightning-to-USB adapter for older iPhones, or USB-C adapter for iPad Pro / newer iPhone 15+."},
+      {"problem": "Cert not offered", "fix": "Make sure the DoD certs profile is installed AND trusted under Settings → General → About → Certificate Trust Settings."}
+    ]
+  },
+  "android": {
+    "slug": "android",
+    "title": "Use CAC on Android",
+    "summary": "Android CAC support is more limited than iOS, but works with the right reader and the right app.",
+    "estimatedMinutes": 20,
+    "steps": [
+      {
+        "title": "Get a USB-OTG CAC reader",
+        "body": "You need a reader with USB-C (modern Android) or micro-USB. Common: SCR3500 series with USB-C cable. Check 'USB On-The-Go' is enabled on your phone."
+      },
+      {
+        "title": "Install Sub Rosa / TF Maverick",
+        "body": "From Google Play, install 'Sub Rosa' (free) or 'TF Maverick' as a CAC-aware browser. Stock Chrome on Android does NOT support CAC."
+      },
+      {
+        "title": "Install DoD certificates",
+        "body": "Inside Sub Rosa, import the DoD certificate bundle from cyber.mil. The app uses its own cert store separate from Android system."
+      },
+      {
+        "title": "Authenticate",
+        "body": "Open Sub Rosa, plug in your reader + CAC, navigate to your .mil site, enter PIN when prompted."
+      }
+    ],
+    "commonProblems": [
+      {"problem": "Reader not detected", "fix": "Check Settings → Apps → permissions for USB device. Try a different cable. Some Samsung phones disable OTG by default in Settings → Connections."},
+      {"problem": "PIV vs Sub Rosa licensing", "fix": "Sub Rosa is free, but enterprise features need a license. The free version is sufficient for personal use."}
+    ]
+  },
+  "chromeos": {
+    "slug": "chromeos",
+    "title": "Use CAC on Chromebook (ChromeOS)",
+    "summary": "ChromeOS supports CAC via the Smart Card Connector extension. Works well on most Chromebooks.",
+    "estimatedMinutes": 15,
+    "steps": [
+      {
+        "title": "Install Smart Card Connector",
+        "body": "From the Chrome Web Store, install 'Smart Card Connector' (by Google) and 'CACKey' (or OpenSC). Both required."
+      },
+      {
+        "title": "Plug in reader, insert CAC",
+        "body": "USB CAC reader → Chromebook USB port → insert CAC. Click the Smart Card Connector icon to verify the reader is recognized."
+      },
+      {
+        "title": "Import DoD certs",
+        "body": "Open chrome://settings/certificates → Authorities → Import — add each DoD Root CA from AllCerts.zip. Trust for 'Identifying websites'."
+      },
+      {
+        "title": "Navigate to .mil site",
+        "body": "Open Chrome, go to your site, pick cert when prompted, enter PIN."
+      }
+    ],
+    "commonProblems": [
+      {"problem": "Extension not seeing reader", "fix": "Reload chrome://extensions, toggle Smart Card Connector off and on."},
+      {"problem": "Managed Chromebook", "fix": "If your Chromebook is enrolled in a school/work organization, the admin may block smart card extensions — contact your IT admin."}
+    ]
+  }
+}

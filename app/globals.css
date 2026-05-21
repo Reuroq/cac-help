@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html, body { height: 100%; }
+
+body {
+  @apply bg-mil-50 text-mil-900 antialiased;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+.prose-cac {
+  @apply max-w-none;
+}
+.prose-cac h1 { @apply text-3xl font-bold mt-6 mb-4 text-mil-900; }
+.prose-cac h2 { @apply text-2xl font-semibold mt-8 mb-3 text-mil-800; }
+.prose-cac h3 { @apply text-xl font-semibold mt-6 mb-2 text-mil-700; }
+.prose-cac p { @apply my-3 leading-relaxed text-mil-800; }
+.prose-cac ul { @apply list-disc pl-6 my-3 space-y-1 text-mil-800; }
+.prose-cac ol { @apply list-decimal pl-6 my-3 space-y-1 text-mil-800; }
+.prose-cac a { @apply text-mil-700 underline decoration-mil-400 underline-offset-2 hover:text-mil-900; }
+.prose-cac code { @apply bg-mil-100 text-mil-900 px-1.5 py-0.5 rounded font-mono text-[0.9em]; }
+.prose-cac pre { @apply bg-mil-900 text-mil-50 p-4 rounded-lg overflow-x-auto my-4 text-sm; }
+.prose-cac blockquote { @apply border-l-4 border-gold-400 pl-4 italic my-4 text-mil-700; }
+.prose-cac strong { @apply font-semibold text-mil-900; }
+
+.chat-bubble-user {
+  @apply bg-mil-700 text-mil-50 rounded-2xl rounded-br-md px-4 py-3 max-w-[85%] ml-auto whitespace-pre-wrap break-words;
+}
+.chat-bubble-assistant {
+  @apply bg-white text-mil-900 rounded-2xl rounded-bl-md px-4 py-3 max-w-[85%] mr-auto whitespace-pre-wrap break-words shadow-sm border border-mil-100;
+}
+.chat-bubble-assistant a { @apply underline text-mil-700; }
+
+@keyframes pulse-dot {
+  0%, 80%, 100% { opacity: 0.3; }
+  40% { opacity: 1; }
+}
+.typing-dot { animation: pulse-dot 1.4s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
