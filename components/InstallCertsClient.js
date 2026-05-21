@@ -23,374 +23,293 @@ function detectOS() {
   return 'windows';
 }
 
-function CopyBlock({ code, filename, downloadHref }) {
+function BigDownload({ href, filename, label, sublabel }) {
+  return (
+    <a
+      href={href}
+      download={filename}
+      className="block bg-mil-700 hover:bg-mil-800 text-white rounded-xl p-5 transition-colors text-center group"
+    >
+      <div className="flex items-center justify-center gap-3">
+        <svg className="w-7 h-7 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        <div className="text-left">
+          <div className="text-xl font-bold leading-tight">{label}</div>
+          <div className="text-sm text-mil-200 mt-0.5">{sublabel}</div>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function AdvancedToggle({ children }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="mt-6 border-t border-mil-200 pt-4">
+      <button
+        onClick={() => setOpen(!open)}
+        className="text-sm text-mil-700 hover:text-mil-900 font-semibold flex items-center gap-1"
+      >
+        <span>{open ? '▼' : '▶'}</span>
+        <span>Advanced: view the raw PowerShell script (audit before running)</span>
+      </button>
+      {open && <div className="mt-3">{children}</div>}
+    </div>
+  );
+}
+
+function CopyButton({ text, label = 'Copy' }) {
   const [copied, setCopied] = useState(false);
   async function copy() {
     try {
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {}
   }
   return (
+    <button onClick={copy} className="bg-gold-400 hover:bg-gold-500 text-mil-900 px-2 py-1 rounded text-xs font-semibold">
+      {copied ? 'Copied!' : label}
+    </button>
+  );
+}
+
+function ScriptViewer({ text, filename }) {
+  return (
     <div className="bg-mil-900 rounded-lg overflow-hidden border border-mil-800">
       <div className="flex items-center justify-between bg-mil-800 px-3 py-2 text-xs">
         <span className="text-mil-200 font-mono">{filename}</span>
-        <div className="flex gap-2">
-          {downloadHref && (
-            <a
-              href={downloadHref}
-              download={filename}
-              className="bg-mil-700 hover:bg-mil-600 text-mil-50 px-2 py-1 rounded text-xs font-semibold"
-            >
-              Download
-            </a>
-          )}
-          <button
-            onClick={copy}
-            className="bg-gold-400 hover:bg-gold-500 text-mil-900 px-2 py-1 rounded text-xs font-semibold"
-          >
-            {copied ? 'Copied!' : 'Copy'}
-          </button>
-        </div>
+        <CopyButton text={text} />
       </div>
       <pre className="text-mil-50 text-xs p-3 overflow-x-auto font-mono leading-relaxed max-h-96">
-        <code>{code}</code>
+        <code>{text}</code>
       </pre>
     </div>
   );
 }
 
-const WINDOWS_PS1 = `# CAC.help — DoD Certificate Installer (Windows)
-# Downloads the official DoD certificate bundle from public.cyber.mil and
-# installs each root and intermediate cert into your USER certificate store
-# (Cert:\\CurrentUser\\Root and Cert:\\CurrentUser\\CA). No admin required.
-#
-# Usage: right-click → Run with PowerShell, OR from PowerShell:
-#   Set-ExecutionPolicy -Scope Process Bypass; .\\install-dod-certs.ps1
-# Audit before running: https://github.com/Reuroq/cac-help
+function WindowsSection() {
+  const [psScript, setPsScript] = useState('');
+  useEffect(() => {
+    fetch('/scripts/install-dod-certs.ps1').then((r) => r.text()).then(setPsScript).catch(() => {});
+  }, []);
+  return (
+    <div>
+      <h3 className="text-2xl font-bold text-mil-900 mb-1">Windows — easiest way</h3>
+      <p className="text-mil-700 mb-5">Download. Double-click. Done in 30 seconds. No file association dialogs, no PowerShell windows to figure out.</p>
 
-\$ErrorActionPreference = 'Stop'
-\$BundleUrl = 'https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DoD.zip'
-\$WorkDir   = Join-Path \$env:TEMP "dod-certs-\$(Get-Random)"
-New-Item -ItemType Directory -Path \$WorkDir -Force | Out-Null
+      <BigDownload
+        href="/scripts/install-dod-certs.bat"
+        filename="install-dod-certs.bat"
+        label="Download installer for Windows"
+        sublabel="install-dod-certs.bat · ~3 KB · double-click to run"
+      />
 
-Write-Host "[1/4] Downloading DoD certificate bundle from public.cyber.mil ..." -ForegroundColor Cyan
-\$ZipPath = Join-Path \$WorkDir 'certs.zip'
-try {
-    Invoke-WebRequest -Uri \$BundleUrl -OutFile \$ZipPath -UseBasicParsing
-} catch {
-    Write-Host "Direct download failed. The DoD URL may have moved." -ForegroundColor Yellow
-    Write-Host "Manually download from: https://public.cyber.mil/pki-pke/admins/" -ForegroundColor Yellow
-    Write-Host "Then unzip into \$WorkDir and re-run this script with the -SkipDownload flag." -ForegroundColor Yellow
-    exit 1
+      <div className="mt-5 bg-amber-50 border-l-4 border-amber-400 px-4 py-3 rounded-r">
+        <p className="text-sm text-amber-900">
+          <strong>⚠ Expect a SmartScreen warning.</strong> Windows shows{' '}
+          <em>"Windows protected your PC"</em> for any file downloaded from the internet that isn't signed by a major publisher.
+          That's not specific to our installer — it's how Windows treats all unsigned downloads.
+        </p>
+        <p className="text-sm text-amber-900 mt-2">
+          To proceed: click <strong>More info</strong> → <strong>Run anyway</strong>. The installer then runs as your normal user
+          account (no admin/UAC prompt) and only modifies your personal certificate store.
+        </p>
+      </div>
+
+      <div className="mt-6">
+        <h4 className="font-bold text-mil-900 mb-2">What happens when you run it</h4>
+        <ol className="list-decimal pl-6 space-y-1 text-mil-800 text-sm">
+          <li>A blue console window opens with the CAC.help banner.</li>
+          <li>Press any key to begin.</li>
+          <li>It downloads the latest DoD cert bundle from <code className="bg-mil-100 px-1 rounded">public.cyber.mil</code>.</li>
+          <li>Each certificate is added to <code className="bg-mil-100 px-1 rounded">Cert:\CurrentUser\Root</code> or <code className="bg-mil-100 px-1 rounded">\CA</code>.</li>
+          <li>You see green <code className="bg-mil-100 px-1 rounded">+</code> lines for each cert installed. Press any key to close.</li>
+          <li>Restart your browser. Insert your CAC. Visit a .mil site.</li>
+        </ol>
+      </div>
+
+      <AdvancedToggle>
+        <p className="text-sm text-mil-700 mb-2">
+          This is the raw PowerShell that the <code className="bg-mil-100 px-1 rounded">.bat</code> downloads and runs.
+          You can also{' '}
+          <a href="/scripts/install-dod-certs.ps1" download className="underline font-semibold">
+            download the .ps1 directly
+          </a>{' '}
+          and run it manually if you prefer.
+        </p>
+        <ScriptViewer text={psScript || '(loading...)'} filename="install-dod-certs.ps1" />
+      </AdvancedToggle>
+    </div>
+  );
 }
 
-Write-Host "[2/4] Extracting ..." -ForegroundColor Cyan
-Expand-Archive -Path \$ZipPath -DestinationPath \$WorkDir -Force
+function MacOSSection() {
+  const [shScript, setShScript] = useState('');
+  useEffect(() => {
+    fetch('/scripts/install-dod-certs.sh').then((r) => r.text()).then(setShScript).catch(() => {});
+  }, []);
+  return (
+    <div>
+      <h3 className="text-2xl font-bold text-mil-900 mb-1">macOS — easiest way</h3>
+      <p className="text-mil-700 mb-5">Download. Right-click → Open → Open. (macOS Gatekeeper blocks unsigned downloads on first run.)</p>
 
-Write-Host "[3/4] Locating certificate files ..." -ForegroundColor Cyan
-\$CerFiles = Get-ChildItem -Path \$WorkDir -Recurse -Include *.cer,*.crt,*.pem | Where-Object { -not \$_.PSIsContainer }
-if (\$CerFiles.Count -eq 0) {
-    # The PKCS#7 .p7b bundle case — extract certs from it
-    \$P7B = Get-ChildItem -Path \$WorkDir -Recurse -Filter '*.p7b' | Select-Object -First 1
-    if (\$P7B) {
-        \$Coll = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2Collection
-        \$Coll.Import(\$P7B.FullName)
-        Write-Host "Found PKCS#7 bundle with \$(\$Coll.Count) certs." -ForegroundColor Cyan
-        \$CertSink = Join-Path \$WorkDir 'individual'
-        New-Item -ItemType Directory -Path \$CertSink -Force | Out-Null
-        foreach (\$c in \$Coll) {
-            \$Safe = (\$c.Subject -replace '[^a-zA-Z0-9]','_').Substring(0,[Math]::Min(60,(\$c.Subject -replace '[^a-zA-Z0-9]','_').Length))
-            \$Path = Join-Path \$CertSink "\$Safe.cer"
-            [System.IO.File]::WriteAllBytes(\$Path, \$c.RawData)
-        }
-        \$CerFiles = Get-ChildItem -Path \$CertSink -Filter '*.cer'
-    }
-}
-Write-Host "Found \$(\$CerFiles.Count) certificate file(s)." -ForegroundColor Cyan
+      <BigDownload
+        href="/scripts/install-dod-certs.command"
+        filename="install-dod-certs.command"
+        label="Download installer for Mac"
+        sublabel="install-dod-certs.command · opens in Terminal"
+      />
 
-Write-Host "[4/4] Installing into Cert:\\CurrentUser store ..." -ForegroundColor Cyan
-\$Installed = 0
-\$Skipped = 0
-foreach (\$f in \$CerFiles) {
-    try {
-        \$Cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2 \$f.FullName
-        \$Subject = \$Cert.Subject
-        \$IsRoot = \$Cert.Subject -eq \$Cert.Issuer
-        \$StoreName = if (\$IsRoot) { 'Root' } else { 'CA' }
-        \$Store = New-Object System.Security.Cryptography.X509Certificates.X509Store \$StoreName, 'CurrentUser'
-        \$Store.Open('ReadWrite')
-        \$Existing = \$Store.Certificates | Where-Object { \$_.Thumbprint -eq \$Cert.Thumbprint }
-        if (\$Existing) {
-            \$Skipped++
-        } else {
-            \$Store.Add(\$Cert)
-            \$Installed++
-            Write-Host "  + [\$StoreName] \$Subject" -ForegroundColor Green
-        }
-        \$Store.Close()
-    } catch {
-        Write-Host "  ! Skipped \$(\$f.Name): \$_" -ForegroundColor Yellow
-    }
+      <div className="mt-5 bg-amber-50 border-l-4 border-amber-400 px-4 py-3 rounded-r">
+        <p className="text-sm text-amber-900">
+          <strong>⚠ On first run, macOS blocks unsigned downloads.</strong> You'll see <em>"cannot be opened because Apple cannot check it for malicious software."</em>
+        </p>
+        <p className="text-sm text-amber-900 mt-2">
+          To bypass: in Finder, <strong>right-click</strong> (or Control-click) the file → <strong>Open</strong> → <strong>Open</strong> again on the warning dialog. After this one-time approval, Terminal opens, you press Enter, and it runs.
+        </p>
+      </div>
+
+      <div className="mt-6">
+        <h4 className="font-bold text-mil-900 mb-2">Don't trust .command files? Run it manually instead</h4>
+        <p className="text-sm text-mil-800 mb-2">Open Terminal (⌘+Space → "Terminal") and paste:</p>
+        <div className="bg-mil-900 rounded-lg p-3 font-mono text-sm text-mil-50 overflow-x-auto">
+          curl -fsSL https://cac-help.onrender.com/scripts/install-dod-certs.sh | bash
+        </div>
+        <p className="text-xs text-mil-600 mt-2">macOS will prompt for your account password (not your CAC PIN) to write certs to your login keychain.</p>
+      </div>
+
+      <AdvancedToggle>
+        <p className="text-sm text-mil-700 mb-2">
+          Raw script that <code className="bg-mil-100 px-1 rounded">.command</code> / <code className="bg-mil-100 px-1 rounded">curl | bash</code> runs.{' '}
+          <a href="/scripts/install-dod-certs.sh" download className="underline font-semibold">Download .sh directly</a>.
+        </p>
+        <ScriptViewer text={shScript || '(loading...)'} filename="install-dod-certs.sh" />
+      </AdvancedToggle>
+    </div>
+  );
 }
 
-Remove-Item -Path \$WorkDir -Recurse -Force -ErrorAction SilentlyContinue
-Write-Host ""
-Write-Host "Done. Installed: \$Installed  Already-present: \$Skipped" -ForegroundColor Green
-Write-Host "Restart your browser, insert your CAC, and visit a .mil site." -ForegroundColor Green
-`;
+function LinuxSection() {
+  return (
+    <div>
+      <h3 className="text-2xl font-bold text-mil-900 mb-1">Linux</h3>
+      <p className="text-mil-700 mb-5">One-line install via terminal.</p>
 
-const MACOS_SH = `#!/usr/bin/env bash
-# CAC.help — DoD Certificate Installer (macOS)
-# Downloads the DoD certificate bundle from public.cyber.mil and installs each
-# certificate into your LOGIN keychain set to "Always Trust" for SSL.
-#
-# Usage:  chmod +x install-dod-certs.sh && ./install-dod-certs.sh
-# Audit: https://github.com/Reuroq/cac-help
-
-set -euo pipefail
-
-BUNDLE_URL='https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DoD.zip'
-WORK_DIR="\${TMPDIR:-/tmp}/dod-certs-\$\$"
-mkdir -p "\$WORK_DIR"
-trap "rm -rf '\$WORK_DIR'" EXIT
-
-echo "[1/4] Downloading DoD certificate bundle..."
-if ! curl -fsSL "\$BUNDLE_URL" -o "\$WORK_DIR/certs.zip"; then
-    echo "Direct download failed. Manually grab from https://public.cyber.mil/pki-pke/admins/"
-    echo "Drop the .zip into \$WORK_DIR/certs.zip and re-run."
-    exit 1
-fi
-
-echo "[2/4] Extracting..."
-unzip -q "\$WORK_DIR/certs.zip" -d "\$WORK_DIR"
-
-echo "[3/4] Locating certificates..."
-P7B=\$(find "\$WORK_DIR" -name '*.p7b' | head -1)
-INDIV_DIR="\$WORK_DIR/individual"
-mkdir -p "\$INDIV_DIR"
-
-if [ -n "\$P7B" ]; then
-    openssl pkcs7 -inform DER -in "\$P7B" -print_certs -out "\$INDIV_DIR/all.pem"
-    awk '
-      /-----BEGIN CERTIFICATE-----/ { n++; out = sprintf("'\$INDIV_DIR'/cert-%03d.pem", n) }
-      out { print > out }
-    ' "\$INDIV_DIR/all.pem"
-    CERTS=("\$INDIV_DIR"/cert-*.pem)
-else
-    CERTS=(\$(find "\$WORK_DIR" -name '*.cer' -o -name '*.crt' -o -name '*.pem'))
-fi
-
-echo "Found \${#CERTS[@]} certificate(s)."
-
-echo "[4/4] Installing into login keychain..."
-KEYCHAIN="\$HOME/Library/Keychains/login.keychain-db"
-INSTALLED=0
-for c in "\${CERTS[@]}"; do
-    [ -f "\$c" ] || continue
-    SUBJECT=\$(openssl x509 -in "\$c" -noout -subject 2>/dev/null | sed 's/subject=//')
-    if security add-trusted-cert -k "\$KEYCHAIN" -p ssl -p smime "\$c" 2>/dev/null; then
-        INSTALLED=\$((INSTALLED+1))
-        echo "  + \$SUBJECT"
-    else
-        # Fallback: add without trust (still allows chain validation)
-        security import "\$c" -k "\$KEYCHAIN" 2>/dev/null && INSTALLED=\$((INSTALLED+1)) || true
-    fi
-done
-
-echo ""
-echo "Done. Installed: \$INSTALLED"
-echo "If you got a permission prompt and clicked Cancel, re-run and click Allow."
-echo "Restart Safari, insert your CAC, visit a .mil site."
-`;
-
-const LINUX_SH = `#!/usr/bin/env bash
-# CAC.help — DoD Certificate Installer (Linux)
-# Downloads the DoD bundle and installs into:
-#   - Your user NSS database (~/.pki/nssdb)  → used by Chrome, Firefox*, Edge
-#   - System CA store (optional, requires sudo) → /usr/local/share/ca-certificates
-# *Firefox uses its own NSS store per profile; see manual step at bottom.
-#
-# Prereqs:  pcscd opensc libnss3-tools  (apt) / nss-tools (dnf)
-# Usage:    chmod +x install-dod-certs.sh && ./install-dod-certs.sh
-# Audit:    https://github.com/Reuroq/cac-help
-
-set -euo pipefail
-
-BUNDLE_URL='https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DoD.zip'
-WORK_DIR=\$(mktemp -d)
-NSSDB="sql:\$HOME/.pki/nssdb"
-
-trap "rm -rf '\$WORK_DIR'" EXIT
-mkdir -p "\$HOME/.pki/nssdb"
-
-if ! command -v certutil >/dev/null 2>&1; then
-    echo "certutil not found. Install:"
-    echo "  Ubuntu/Debian: sudo apt install libnss3-tools"
-    echo "  Fedora:        sudo dnf install nss-tools"
-    echo "  Arch:          sudo pacman -S nss"
-    exit 1
-fi
-
-# Init NSS DB if empty
-if [ ! -f "\$HOME/.pki/nssdb/cert9.db" ]; then
-    certutil -N -d "\$NSSDB" --empty-password
-fi
-
-echo "[1/4] Downloading DoD certificate bundle..."
-curl -fsSL "\$BUNDLE_URL" -o "\$WORK_DIR/certs.zip"
-
-echo "[2/4] Extracting..."
-unzip -q "\$WORK_DIR/certs.zip" -d "\$WORK_DIR"
-
-echo "[3/4] Splitting PKCS#7 bundle..."
-P7B=\$(find "\$WORK_DIR" -name '*.p7b' | head -1)
-openssl pkcs7 -inform DER -in "\$P7B" -print_certs -out "\$WORK_DIR/all.pem"
-
-INDIV="\$WORK_DIR/individual"
-mkdir -p "\$INDIV"
-awk -v d="\$INDIV" '
-  /-----BEGIN CERTIFICATE-----/ { n++; out = sprintf("%s/cert-%03d.pem", d, n) }
-  out { print > out }
-' "\$WORK_DIR/all.pem"
-
-echo "[4/4] Importing into NSS database..."
-INSTALLED=0
-for c in "\$INDIV"/cert-*.pem; do
-    SUBJECT=\$(openssl x509 -in "\$c" -noout -subject 2>/dev/null | sed 's/subject=//')
-    NICK=\$(echo "\$SUBJECT" | sed 's/.*CN *= *\\([^,]*\\).*/\\1/' | tr -d '"' | xargs)
-    [ -z "\$NICK" ] && NICK="DoD Cert \$INSTALLED"
-    if certutil -A -d "\$NSSDB" -n "\$NICK" -t "CT,C,C" -i "\$c" 2>/dev/null; then
-        INSTALLED=\$((INSTALLED+1))
-        echo "  + \$NICK"
-    fi
-done
-
-echo ""
-echo "Done. Imported \$INSTALLED certs into \$HOME/.pki/nssdb"
-echo ""
-echo "Firefox uses its own cert store per profile. To add DoD certs to Firefox:"
-echo "  Preferences → Privacy & Security → Certificates → View Certificates → Authorities → Import"
-echo "  Import \$WORK_DIR/all.pem  (or each .pem in \$INDIV/)"
-echo ""
-echo "To also install OpenSC PKCS#11 for Firefox (CAC reader access):"
-echo "  Preferences → Privacy & Security → Security Devices → Load"
-echo "  Module: 'OpenSC', file: /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so"
-`;
-
-function ScriptInstaller({ os }) {
-  if (os === 'windows') {
-    const blob = `data:text/plain;charset=utf-8,${encodeURIComponent(WINDOWS_PS1)}`;
-    return (
-      <div>
-        <h3 className="text-xl font-bold text-mil-900 mb-2">Windows install — PowerShell</h3>
-        <ol className="list-decimal pl-6 mb-4 space-y-1 text-mil-800">
-          <li>Click <strong>Download</strong> below to save <code className="bg-mil-100 px-1 rounded">install-dod-certs.ps1</code>.</li>
-          <li>Right-click the file → <strong>Run with PowerShell</strong>. (Or open PowerShell and run <code className="bg-mil-100 px-1 rounded">.\install-dod-certs.ps1</code>.)</li>
-          <li>If Windows warns about execution policy, click <strong>Yes / Open / Run anyway</strong> — the script is signed only by you running it, not by Microsoft.</li>
-        </ol>
-        <CopyBlock code={WINDOWS_PS1} filename="install-dod-certs.ps1" downloadHref={blob} />
+      <div className="bg-mil-900 rounded-lg p-4 font-mono text-sm text-mil-50 overflow-x-auto">
+        curl -fsSL https://cac-help.onrender.com/scripts/install-dod-certs.sh | bash
       </div>
-    );
-  }
-  if (os === 'macos') {
-    const blob = `data:text/plain;charset=utf-8,${encodeURIComponent(MACOS_SH)}`;
-    return (
-      <div>
-        <h3 className="text-xl font-bold text-mil-900 mb-2">macOS install — Terminal</h3>
-        <ol className="list-decimal pl-6 mb-4 space-y-1 text-mil-800">
-          <li>Download <code className="bg-mil-100 px-1 rounded">install-dod-certs.sh</code> below.</li>
-          <li>Open Terminal (⌘+Space → "Terminal").</li>
-          <li>Run: <code className="bg-mil-100 px-1 rounded">chmod +x ~/Downloads/install-dod-certs.sh && ~/Downloads/install-dod-certs.sh</code></li>
-          <li>macOS will prompt for your password to add certs to your login keychain — click <strong>Always Allow</strong>.</li>
-        </ol>
-        <CopyBlock code={MACOS_SH} filename="install-dod-certs.sh" downloadHref={blob} />
+
+      <div className="mt-4 bg-mil-100 rounded-lg p-4">
+        <p className="text-sm font-semibold text-mil-900 mb-2">Prerequisites (one-time):</p>
+        <ul className="text-sm text-mil-800 space-y-1 font-mono">
+          <li>Ubuntu/Debian: <code>sudo apt install pcscd opensc libnss3-tools openssl unzip</code></li>
+          <li>Fedora: <code>sudo dnf install pcsc-lite opensc nss-tools openssl unzip</code></li>
+          <li>Arch: <code>sudo pacman -S pcsclite opensc nss openssl unzip</code></li>
+        </ul>
       </div>
-    );
-  }
-  if (os === 'linux') {
-    const blob = `data:text/plain;charset=utf-8,${encodeURIComponent(LINUX_SH)}`;
-    return (
-      <div>
-        <h3 className="text-xl font-bold text-mil-900 mb-2">Linux install — Bash</h3>
-        <ol className="list-decimal pl-6 mb-4 space-y-1 text-mil-800">
-          <li>Install prerequisites: <code className="bg-mil-100 px-1 rounded">sudo apt install pcscd opensc libnss3-tools</code> (or your distro's equivalent).</li>
-          <li>Download <code className="bg-mil-100 px-1 rounded">install-dod-certs.sh</code> below.</li>
-          <li>Run: <code className="bg-mil-100 px-1 rounded">chmod +x install-dod-certs.sh && ./install-dod-certs.sh</code></li>
-          <li>For Firefox, import the same .pem files into Firefox's own cert store (instructions printed by the script).</li>
-        </ol>
-        <CopyBlock code={LINUX_SH} filename="install-dod-certs.sh" downloadHref={blob} />
-      </div>
-    );
-  }
-  if (os === 'ios') {
-    return (
-      <div>
-        <h3 className="text-xl font-bold text-mil-900 mb-2">iPhone / iPad install — Configuration Profile</h3>
-        <p className="text-mil-800 mb-3">
-          iOS doesn't run arbitrary scripts (Apple sandboxing). Instead, you install a <strong>Configuration Profile</strong>:
-        </p>
-        <ol className="list-decimal pl-6 mb-4 space-y-2 text-mil-800">
-          <li>Open Safari on your device and go to{' '}
-            <a href="https://public.cyber.mil/pki-pke/admins/" target="_blank" rel="noopener noreferrer" className="underline font-semibold">public.cyber.mil/pki-pke/admins/</a>
-          </li>
-          <li>Download the <strong>DoD Mobile Configuration Profile</strong> (.mobileconfig file) — Safari will prompt you to install it.</li>
-          <li>After download, open <strong>Settings → General → VPN & Device Management → "DoD Certs"</strong> → tap <strong>Install</strong>. Enter your device passcode.</li>
-          <li>
-            <strong>Critical:</strong> Settings → General → About → <strong>Certificate Trust Settings</strong> →
-            toggle ON for each DoD Root CA. (iOS won't trust the profile certs for SSL until you do this.)
-          </li>
-          <li>Restart Safari.</li>
-        </ol>
-        <p className="text-mil-700 text-sm">
-          Want a step-by-step with screenshots? See our <Link href="/guides/ios" className="underline font-semibold">iOS guide</Link>.
-        </p>
-      </div>
-    );
-  }
-  if (os === 'android') {
-    return (
-      <div>
-        <h3 className="text-xl font-bold text-mil-900 mb-2">Android install — In-app import</h3>
-        <p className="text-mil-800 mb-3">
-          Android's system cert store is locked down for security; for CAC use you typically import certs <strong>into a CAC-aware app</strong> (Sub Rosa, TF Maverick) instead of the system store.
-        </p>
-        <ol className="list-decimal pl-6 mb-4 space-y-2 text-mil-800">
-          <li>Install <strong>Sub Rosa</strong> from the Play Store (free).</li>
-          <li>From your device's browser, download <a href="https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DoD.zip" target="_blank" rel="noopener noreferrer" className="underline font-semibold">the DoD bundle (.zip)</a>.</li>
-          <li>Open Sub Rosa → <strong>Settings → Certificates → Import</strong> → select the bundle.</li>
-          <li>Now use Sub Rosa (not stock Chrome) as your CAC-aware browser.</li>
-        </ol>
-        <p className="text-mil-700 text-sm">
-          Stock Android Chrome does <strong>not</strong> support CAC card readers reliably. See our <Link href="/guides/android" className="underline font-semibold">Android guide</Link>.
-        </p>
-      </div>
-    );
-  }
-  if (os === 'chromeos') {
-    return (
-      <div>
-        <h3 className="text-xl font-bold text-mil-900 mb-2">ChromeOS install — Authorities</h3>
-        <ol className="list-decimal pl-6 mb-4 space-y-2 text-mil-800">
-          <li>Install <strong>Smart Card Connector</strong> + <strong>CACKey</strong> from the Chrome Web Store.</li>
-          <li>Download <a href="https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DoD.zip" target="_blank" rel="noopener noreferrer" className="underline font-semibold">the DoD bundle (.zip)</a>.</li>
-          <li>Open the .zip in the Files app and extract each <code className="bg-mil-100 px-1 rounded">.cer</code>.</li>
-          <li>Open <code className="bg-mil-100 px-1 rounded">chrome://settings/certificates</code> → <strong>Authorities</strong> → <strong>Import</strong> → select each cert → check "Trust this certificate for identifying websites".</li>
-          <li>If your Chromebook is managed by a school/work organization, the admin may block these extensions — contact your IT admin.</li>
-        </ol>
-        <p className="text-mil-700 text-sm">
-          See our <Link href="/guides/chromeos" className="underline font-semibold">ChromeOS guide</Link> for more.
-        </p>
-      </div>
-    );
-  }
-  return null;
+
+      <p className="text-sm text-mil-700 mt-4">
+        Installs certs into your NSS database (<code className="bg-mil-100 px-1 rounded">~/.pki/nssdb</code>) — used by Chrome, Edge, and other NSS-aware tools.
+        Firefox uses its own per-profile NSS store; the script prints manual import instructions for it.
+      </p>
+
+      <p className="text-sm text-mil-600 mt-3">
+        Don't pipe to bash? <a href="/scripts/install-dod-certs.sh" download className="underline font-semibold">Download install-dod-certs.sh</a>, audit, then run with <code className="bg-mil-100 px-1 rounded">bash install-dod-certs.sh</code>.
+      </p>
+    </div>
+  );
+}
+
+function IOSSection() {
+  return (
+    <div>
+      <h3 className="text-2xl font-bold text-mil-900 mb-1">iPhone / iPad</h3>
+      <p className="text-mil-700 mb-5">
+        iOS doesn't allow apps or websites to install certificates directly — that's a hard sandbox boundary.
+        Instead, you install a <strong>Configuration Profile</strong> through Safari + Settings.
+      </p>
+
+      <ol className="list-decimal pl-6 space-y-3 text-mil-800">
+        <li>Open <strong>Safari</strong> on your iPhone/iPad and go to{' '}
+          <a href="https://public.cyber.mil/pki-pke/admins/" target="_blank" rel="noopener noreferrer" className="underline font-semibold">public.cyber.mil/pki-pke/admins/</a>
+        </li>
+        <li>Find and tap the <strong>DoD Mobile Configuration Profile</strong> (.mobileconfig file). Safari prompts: "This website is trying to download a configuration profile. Do you want to allow this?" → tap <strong>Allow</strong>.</li>
+        <li>Open <strong>Settings → General → VPN & Device Management</strong> → tap the downloaded profile → <strong>Install</strong> (top right). Enter your device passcode.</li>
+        <li>
+          <strong className="text-red-700">Critical step most people miss:</strong> Settings → General → About → <strong>Certificate Trust Settings</strong> → toggle <strong>ON</strong> for each DoD Root CA. Without this, iOS won't trust the certs for SSL.
+        </li>
+        <li>Force-quit Safari (swipe up, swipe Safari off-screen) and reopen.</li>
+      </ol>
+
+      <p className="text-sm text-mil-700 mt-4">
+        Step-by-step with what to tap next at: <Link href="/guides/ios" className="underline font-semibold">our iOS guide</Link>.
+      </p>
+    </div>
+  );
+}
+
+function AndroidSection() {
+  return (
+    <div>
+      <h3 className="text-2xl font-bold text-mil-900 mb-1">Android</h3>
+      <p className="text-mil-700 mb-5">
+        Android's system cert store is locked down for security. For CAC use, you import certs <strong>into a CAC-aware app</strong>, not the OS.
+      </p>
+
+      <ol className="list-decimal pl-6 space-y-3 text-mil-800">
+        <li>Install <strong>Sub Rosa</strong> from the Google Play Store (free).</li>
+        <li>From your device browser, download <a href="https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DoD.zip" target="_blank" rel="noopener noreferrer" className="underline font-semibold">the DoD bundle (.zip)</a>.</li>
+        <li>Open Sub Rosa → <strong>Settings → Certificates → Import</strong> → select the bundle.</li>
+        <li>Use Sub Rosa (not stock Chrome) as your CAC-aware browser.</li>
+      </ol>
+
+      <p className="text-sm text-amber-900 mt-4 bg-amber-50 border-l-4 border-amber-400 px-3 py-2 rounded-r">
+        <strong>Stock Chrome on Android does NOT support CAC card readers reliably.</strong> Use Sub Rosa or TF Maverick.
+      </p>
+
+      <p className="text-sm text-mil-700 mt-4">
+        Full Android setup at: <Link href="/guides/android" className="underline font-semibold">our Android guide</Link>.
+      </p>
+    </div>
+  );
+}
+
+function ChromeOSSection() {
+  return (
+    <div>
+      <h3 className="text-2xl font-bold text-mil-900 mb-1">ChromeOS</h3>
+      <p className="text-mil-700 mb-5">ChromeOS supports CAC via two Chrome extensions plus manual cert import.</p>
+
+      <ol className="list-decimal pl-6 space-y-3 text-mil-800">
+        <li>From the Chrome Web Store, install <strong>Smart Card Connector</strong> (by Google).</li>
+        <li>Also install <strong>CACKey</strong> (or <strong>OpenSC</strong> — either works).</li>
+        <li>Download <a href="https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DoD.zip" target="_blank" rel="noopener noreferrer" className="underline font-semibold">the DoD bundle (.zip)</a>.</li>
+        <li>Open the .zip in the Files app and extract each <code className="bg-mil-100 px-1 rounded">.cer</code>.</li>
+        <li>Open <code className="bg-mil-100 px-1 rounded">chrome://settings/certificates</code> → <strong>Authorities</strong> → <strong>Import</strong> → select each cert → tick <em>"Trust this certificate for identifying websites"</em>.</li>
+      </ol>
+
+      <p className="text-sm text-amber-900 mt-4 bg-amber-50 border-l-4 border-amber-400 px-3 py-2 rounded-r">
+        <strong>School/work Chromebook?</strong> If managed by an organization, the admin may block smart card extensions. Contact your IT admin.
+      </p>
+    </div>
+  );
 }
 
 export default function InstallCertsClient() {
   const [os, setOs] = useState('windows');
   useEffect(() => { setOs(detectOS()); }, []);
+
+  const SECTIONS = {
+    windows: <WindowsSection />,
+    macos: <MacOSSection />,
+    linux: <LinuxSection />,
+    ios: <IOSSection />,
+    android: <AndroidSection />,
+    chromeos: <ChromeOSSection />,
+  };
+
   return (
     <div>
       <div className="flex flex-wrap gap-2 mb-6">
@@ -409,7 +328,7 @@ export default function InstallCertsClient() {
         ))}
       </div>
       <div className="bg-white border border-mil-200 rounded-xl p-6">
-        <ScriptInstaller os={os} />
+        {SECTIONS[os]}
       </div>
     </div>
   );
