@@ -1,0 +1,11 @@
+# Force LF for shell scripts so Mac/Linux clients don't get CRLF line endings
+# that break #!/usr/bin/env bash interpretation.
+*.sh        text eol=lf
+*.command   text eol=lf
+
+# Force CRLF for .bat — older cmd.exe interpreters can choke on LF-only batch files.
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+
+# PowerShell handles either; leave as-is.
+*.ps1       text
