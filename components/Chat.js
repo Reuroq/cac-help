@@ -1,7 +1,27 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { SUGGESTED_PROBLEMS } from '@/lib/cac-knowledge';
+
+const MD_COMPONENTS = {
+  a: (p) => <a {...p} target="_blank" rel="noopener noreferrer" className="underline text-mil-700 hover:text-mil-900" />,
+  code: ({ inline, ...p }) => inline
+    ? <code className="bg-mil-100 text-mil-900 px-1.5 py-0.5 rounded font-mono text-[0.9em]" {...p} />
+    : <code className="block bg-mil-900 text-mil-50 p-3 rounded-md font-mono text-sm overflow-x-auto my-2" {...p} />,
+  pre: (p) => <pre className="bg-mil-900 text-mil-50 p-3 rounded-md overflow-x-auto my-3 text-sm" {...p} />,
+  ul: (p) => <ul className="list-disc pl-5 my-2 space-y-1" {...p} />,
+  ol: (p) => <ol className="list-decimal pl-5 my-2 space-y-1" {...p} />,
+  li: (p) => <li className="leading-relaxed" {...p} />,
+  p: (p) => <p className="my-2 leading-relaxed" {...p} />,
+  h1: (p) => <h1 className="text-xl font-bold mt-3 mb-2" {...p} />,
+  h2: (p) => <h2 className="text-lg font-bold mt-3 mb-2" {...p} />,
+  h3: (p) => <h3 className="text-base font-bold mt-2 mb-1" {...p} />,
+  strong: (p) => <strong className="font-semibold" {...p} />,
+  hr: () => <hr className="my-3 border-mil-200" />,
+  blockquote: (p) => <blockquote className="border-l-4 border-gold-400 pl-3 italic my-2 text-mil-700" {...p} />,
+};
 
 export default function Chat({ initialPrompt = '' }) {
   const [messages, setMessages] = useState([]);
@@ -130,7 +150,11 @@ export default function Chat({ initialPrompt = '' }) {
               {messages.map((m, i) => (
                 <div key={i} className="flex">
                   <div className={m.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-assistant'}>
-                    {m.content || (streaming && i === messages.length - 1 ? (
+                    {m.content ? (
+                      m.role === 'user'
+                        ? m.content
+                        : <ReactMarkdown remarkPlugins={[remarkGfm]} components={MD_COMPONENTS}>{m.content}</ReactMarkdown>
+                    ) : (streaming && i === messages.length - 1 ? (
                       <div className="flex gap-1 py-1">
                         <span className="typing-dot">●</span>
                         <span className="typing-dot">●</span>

@@ -1,7 +1,8 @@
 import Chat from '@/components/Chat';
 import Link from 'next/link';
 
-export default function Home() {
+export default function Home({ searchParams }) {
+  const initialPrompt = typeof searchParams?.prompt === 'string' ? searchParams.prompt.slice(0, 500) : '';
   return (
     <div className="flex flex-col">
       <section className="bg-gradient-to-b from-mil-100 to-mil-50">
@@ -16,7 +17,7 @@ export default function Home() {
       <section className="bg-mil-50">
         <div className="max-w-4xl mx-auto px-4 min-h-[60vh] flex flex-col">
           <div className="flex-1 bg-white rounded-2xl shadow-sm border border-mil-200 overflow-hidden my-4 flex flex-col" style={{ minHeight: '500px' }}>
-            <Chat />
+            <Chat initialPrompt={initialPrompt} />
           </div>
         </div>
       </section>

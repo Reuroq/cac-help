@@ -32,8 +32,10 @@ body {
   @apply bg-mil-700 text-mil-50 rounded-2xl rounded-br-md px-4 py-3 max-w-[85%] ml-auto whitespace-pre-wrap break-words;
 }
 .chat-bubble-assistant {
-  @apply bg-white text-mil-900 rounded-2xl rounded-bl-md px-4 py-3 max-w-[85%] mr-auto whitespace-pre-wrap break-words shadow-sm border border-mil-100;
+  @apply bg-white text-mil-900 rounded-2xl rounded-bl-md px-4 py-3 max-w-[85%] mr-auto break-words shadow-sm border border-mil-100;
 }
+.chat-bubble-assistant > *:first-child { margin-top: 0; }
+.chat-bubble-assistant > *:last-child { margin-bottom: 0; }
 .chat-bubble-assistant a { @apply underline text-mil-700; }
 
 @keyframes pulse-dot {
