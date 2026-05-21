@@ -5,7 +5,7 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://cac.help';
 
 export default function sitemap() {
   const now = new Date();
-  const staticPaths = ['/', '/guides', '/errors', '/readers', '/help-desks', '/about', '/disclaimer', '/privacy', '/terms'];
+  const staticPaths = ['/', '/install-certs', '/guides', '/errors', '/readers', '/help-desks', '/about', '/disclaimer', '/privacy', '/terms'];
   const guidePaths = Object.keys(guides).map((slug) => `/guides/${slug}`);
   const errorPaths = errors.map((e) => `/errors/${e.code}`);
   return [...staticPaths, ...guidePaths, ...errorPaths].map((p) => ({

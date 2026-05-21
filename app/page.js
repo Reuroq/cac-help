@@ -22,6 +22,22 @@ export default function Home({ searchParams }) {
         </div>
       </section>
 
+      <section className="bg-gradient-to-r from-gold-400/20 to-gold-400/10 border-y-2 border-gold-400/40">
+        <div className="max-w-4xl mx-auto px-4 py-8 text-center">
+          <h2 className="text-2xl font-bold text-mil-900 mb-2">Install DoD certificates in 60 seconds</h2>
+          <p className="text-mil-700 mb-4">
+            Skip the 60 MB InstallRoot download. Our one-line script pulls the latest bundle from cyber.mil and installs it.
+            Auditable, no admin required.
+          </p>
+          <Link
+            href="/install-certs"
+            className="inline-block bg-mil-700 hover:bg-mil-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+          >
+            Get the installer →
+          </Link>
+        </div>
+      </section>
+
       <section className="bg-white border-t border-mil-200">
         <div className="max-w-5xl mx-auto px-4 py-12">
           <h2 className="text-2xl font-bold text-mil-900 mb-2 text-center">Or browse by operating system</h2>
