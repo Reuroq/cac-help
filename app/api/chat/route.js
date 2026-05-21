@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { SYSTEM_PROMPT, detectOSFromUserAgent } from '@/lib/cac-knowledge';
+import { findRelevantIssues, summarizeForPrompt } from '@/lib/issue-search';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -53,6 +54,14 @@ export async function POST(req) {
 
   const client = new Anthropic({ apiKey });
 
+  let systemPrompt = SYSTEM_PROMPT;
+  try {
+    const firstUser = messages.find((m) => m.role === 'user')?.content || '';
+    const matched = findRelevantIssues(firstUser, { limit: 5, detectedOS });
+    const ragChunk = summarizeForPrompt(matched);
+    if (ragChunk) systemPrompt = SYSTEM_PROMPT + '\n\n' + ragChunk;
+  } catch {}
+
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
@@ -60,7 +69,7 @@ export async function POST(req) {
         const apiStream = await client.messages.stream({
           model: MODEL,
           max_tokens: 1500,
-          system: SYSTEM_PROMPT,
+          system: systemPrompt,
           messages,
         });
         for await (const event of apiStream) {

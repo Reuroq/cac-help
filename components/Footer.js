@@ -25,6 +25,7 @@ export default function Footer() {
             <h3 className="font-bold text-mil-50 mb-2">Reference</h3>
             <ul className="space-y-1">
               <li><Link href="/install-certs" className="hover:text-gold-400">Install DoD certs</Link></li>
+              <li><Link href="/library" className="hover:text-gold-400">Issue library</Link></li>
               <li><Link href="/errors" className="hover:text-gold-400">Error codes</Link></li>
               <li><Link href="/readers" className="hover:text-gold-400">CAC readers</Link></li>
               <li><Link href="/help-desks" className="hover:text-gold-400">Help desks</Link></li>

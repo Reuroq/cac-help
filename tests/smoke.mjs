@@ -16,6 +16,8 @@ const ROUTES = [
   ['/errors/403.7', 200, '403.7'],
   ['/errors/2148073485', 200, '2148073485'],
   ['/install-certs', 200, 'DoD Certificate'],
+  ['/library', 200, 'Issue Library'],
+  ['/library/adobe-reader-dc-key-does-not-exist', 200, 'Adobe'],
   ['/readers', 200, 'CAC Reader'],
   ['/help-desks', 200, 'Help Desk'],
   ['/about', 200, 'About CAC'],

@@ -1,0 +1,3641 @@
+[
+  {
+    "id": "windows-mac-pdf-cryptotokenkit",
+    "title": "Adobe Reader on Mac cannot use the CAC for signatures",
+    "category": "adobe",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Adobe Reader is installed but signing options are greyed out on macOS 10.12+.",
+    "causes": "CryptoTokenKit framework support is turned off in Adobe Reader's signature preferences.",
+    "fix": "1. Open Adobe Reader > Adobe Reader (menu) > Preferences.\n2. Categories > Signatures.\n3. Under Creation and Appearance click More.\n4. Tick 'CryptoTokenKit framework support'.\n5. Optional: set 'Default Signing Format' to 'CAdES-Equivalent'.\n6. If the option is missing, update Adobe Reader.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/esign.htm",
+    "keywords": [
+      "adobe",
+      "cryptotokenkit",
+      "mac",
+      "sign"
+    ]
+  },
+  {
+    "id": "adobe-reader-dc-key-does-not-exist",
+    "title": "PDF signing fails with 'Key does not exist' (Error 2148073485)",
+    "category": "adobe",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "When signing a PDF with your CAC, Adobe Reader DC throws: 'The Windows Cryptographic Service Provider reported an error: Key does not exist. Error Code: 2148073485'.",
+    "causes": "Bug in some builds of Adobe Reader DC that breaks compatibility with CAC private keys held by the Microsoft Smart Card CSP.",
+    "fix": "1. Open any PDF, click Help > Check for Updates and install the latest Reader DC update.\n2. If still failing, fully uninstall Adobe Reader DC.\n3. Restart the computer.\n4. Download Adobe Reader XI (11.x) from get.adobe.com/reader/otherversions/ and install it.\n5. Re-attempt the signature.",
+    "related_error_codes": [
+      "2148073485"
+    ],
+    "source_url": "https://militarycac.com/esign.htm",
+    "keywords": [
+      "adobe",
+      "reader",
+      "dc",
+      "pdf",
+      "sign",
+      "cryptographic",
+      "key"
+    ]
+  },
+  {
+    "id": "adobe-reader-dc-keyset-not-defined",
+    "title": "PDF signing fails with 'Keyset is not defined' (Error 2148073497)",
+    "category": "adobe",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Signing a PDF returns: 'The Windows Cryptographic Service Provider reported an error: The keyset is not defined. Error Code: 2148073497'.",
+    "causes": "The wrong CAC certificate was chosen for the signature operation (for example, the ID/Authentication cert was selected when only the EMAIL cert can sign that workflow, or vice versa).",
+    "fix": "1. Retry the signature.\n2. When the certificate picker appears, switch to a different certificate than the one you tried last time.\n3. If you tried 'DOD CA-xx' first, choose 'DOD EMAIL CA-xx' instead (or vice versa).\n4. Complete the signature.",
+    "related_error_codes": [
+      "2148073497"
+    ],
+    "source_url": "https://militarycac.com/esign.htm",
+    "keywords": [
+      "adobe",
+      "keyset",
+      "pdf",
+      "sign",
+      "wrong certificate"
+    ]
+  },
+  {
+    "id": "adobe-reader-no-storage-space",
+    "title": "PDF signing fails with 'Security token has no storage space' (Error 2148073507)",
+    "category": "adobe",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Signature attempt fails with a message about insufficient storage on the smart card.",
+    "causes": "Incorrect certificate selected for signing; the chosen container does not have a usable signing key.",
+    "fix": "1. Click the signature field again.\n2. In the certificate picker, choose a different certificate.\n3. Toggle between DOD CA and DOD EMAIL CA options until one succeeds.",
+    "related_error_codes": [
+      "2148073507"
+    ],
+    "source_url": "https://militarycac.com/esign.htm",
+    "keywords": [
+      "adobe",
+      "storage",
+      "smart card",
+      "sign"
+    ]
+  },
+  {
+    "id": "adobe-reader-pink-ribbon-missing",
+    "title": "Pink ribbon (digital signature) icon missing on a PDF form",
+    "category": "adobe",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "A form that should support digital signatures opens without the pink signature ribbon icon, leaving signature fields unusable.",
+    "causes": "The PDF is opening in a non-Adobe viewer (Edge, the built-in Windows 10/11 reader, or a browser PDF plugin) which does not implement CAC signing.",
+    "fix": "1. Install Adobe Reader from https://get.adobe.com/reader.\n2. Open Settings > Apps > Default apps (or 'Choose default apps by file type' on older builds).\n3. Find '.pdf' and set the default to Adobe Acrobat Reader.\n4. Save the form locally first, then open it from disk rather than directly inside the browser.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/esign.htm",
+    "keywords": [
+      "pink ribbon",
+      "pdf",
+      "sign",
+      "default app",
+      "edge"
+    ]
+  },
+  {
+    "id": "error-2148073507",
+    "title": "Smart card 'no storage space' during signing (Error 2148073507)",
+    "category": "adobe",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Adobe reports the security token has no storage space.",
+    "causes": "Wrong cert slot selected.",
+    "fix": "1. Re-trigger the signature.\n2. Choose a different available certificate.\n3. Toggle between DOD CA and DOD EMAIL CA until one signs.",
+    "related_error_codes": [
+      "2148073507"
+    ],
+    "source_url": "https://militarycac.com/esign.htm",
+    "keywords": [
+      "sign",
+      "token storage",
+      "adobe"
+    ]
+  },
+  {
+    "id": "android-no-working-apps",
+    "title": "No working CAC apps for Android",
+    "category": "android",
+    "platforms": [
+      "android"
+    ],
+    "symptoms": "Cannot find a CAC reader/middleware app that authenticates an Android phone or tablet to DoD sites.",
+    "causes": "The site author reports no current Android apps successfully enable CAC access; previous solutions have been discontinued.",
+    "fix": "1. Use an iOS device with a Thursby/TwoCanoes or Identiv iAuthenticate reader instead.\n2. For Army users, install Hypori on Android to access Army 365 services through a virtual environment that does not require CAC on the device itself.\n3. Use a government computer or VDI session for CAC-required tasks.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/mobile.htm",
+    "keywords": [
+      "android",
+      "mobile",
+      "hypori"
+    ]
+  },
+  {
+    "id": "current-page-cannot-be-displayed",
+    "title": "'This page can't be displayed' on a CAC site",
+    "category": "browser",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Generic 'can't be displayed' message on CAC URL.",
+    "causes": "Multiple - failed handshake, expired CAC, wrong browser config.",
+    "fix": "1. Refresh.\n2. Apply the IE configuration PDF.\n3. Verify the CAC is not expired - get a new one if it is.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "page can't be displayed",
+      "ie"
+    ]
+  },
+  {
+    "id": "sccp-permission-no-access",
+    "title": "'You do not have permission to access this resource' on AKO download",
+    "category": "browser",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "AKO refuses to let you download ActivClient.",
+    "causes": "Wrong account type (volunteers, family, retirees, other branches cannot pull from AKO) or wrong browser.",
+    "fix": "1. Use the branch-appropriate download site listed on militarycac.com.\n2. Use Internet Explorer for the registration step (not Firefox).\n3. Navigate to https://www.us.army.mil rather than outdated AKO favorites.\n4. Apply the IE configuration PDF.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "ako",
+      "permission",
+      "download"
+    ]
+  },
+  {
+    "id": "ie-file-download-disabled",
+    "title": "'Your current security settings do not allow this file to be downloaded'",
+    "category": "browser",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Cannot download files from CAC sites in IE.",
+    "causes": "File download is set to Disable in the security zone.",
+    "fix": "1. IE > Tools > Internet Options > Security tab > Internet icon > Custom level.\n2. Scroll to Downloads > File download > Enable.\n3. OK.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "file download",
+      "ie",
+      "security zone"
+    ]
+  },
+  {
+    "id": "ie-ataaps-common-policy",
+    "title": "ATAAPS access fails (CA-25+) due to Common Policy cert",
+    "category": "browser",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "ATAAPS will not load for CAC-25 or newer users.",
+    "causes": "The 'Common Policy' cert is installed in the Intermediate store and outranks the DoD chain.",
+    "fix": "1. IE > Tools > Internet Options > Content > Certificates > Intermediate Certification Authorities.\n2. Scroll to 'Common Policy', select it > Remove.\n3. Going forward, if you see a 'Common Policy' popup in email, click No (do not install).",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "ataaps",
+      "common policy",
+      "ca-25"
+    ]
+  },
+  {
+    "id": "error-107-net-ssl-protocol",
+    "title": "Error 107 net::ERR_SSL_PROTOCOL_ERROR",
+    "category": "browser",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Chrome/Firefox/IE returns net::ERR_SSL_PROTOCOL_ERROR.",
+    "causes": "TLS / SSL configuration mismatch (often TLS 1.0/1.1/1.2 disabled or SSL 3.0 enabled).",
+    "fix": "1. Apply the IE / browser config in the AKO IE color guide (slides 18-19).\n2. In IE: Tools > Internet Options > Advanced > tick TLS 1.0, 1.1, 1.2; untick SSL 2.0 and SSL 3.0.\n3. Retry.",
+    "related_error_codes": [
+      "107"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "107",
+      "tls",
+      "ssl",
+      "chrome"
+    ]
+  },
+  {
+    "id": "error-117-bad-ssl-client-auth",
+    "title": "Error 117 net::ERR_BAD_SSL_CLIENT_AUTH_CERT",
+    "category": "browser",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Browser returns ERR_BAD_SSL_CLIENT_AUTH_CERT.",
+    "causes": "Time skew over 5 minutes or misconfigured browser/system files.",
+    "fix": "1. Verify the computer clock is correct - more than 5 minutes off will break client auth.\n2. Apply the AKO IE configuration guide.\n3. If still broken, roll Windows back via System Restore.",
+    "related_error_codes": [
+      "117"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "117",
+      "clock",
+      "system time"
+    ]
+  },
+  {
+    "id": "error-310-too-many-redirects",
+    "title": "Error 310 ERR_TOO_MANY_REDIRECTS",
+    "category": "browser",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Browser loops through redirects on a CAC site.",
+    "causes": "System clock is more than 5 minutes off.",
+    "fix": "1. Correct the system date/time and time zone.\n2. Reload the page.",
+    "related_error_codes": [
+      "310"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "310",
+      "redirects",
+      "clock"
+    ]
+  },
+  {
+    "id": "ssl-error-bad-cert-alert-firefox",
+    "title": "Firefox 'ssl_error_bad_cert_alert' on DoD site",
+    "category": "browser",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "symptoms": "Firefox throws ssl_error_bad_cert_alert when attempting CAC authentication.",
+    "causes": "Firefox cannot present the right CAC certificate, usually because the PKCS#11 module is not loaded or the cert is wrong.",
+    "fix": "1. Confirm the PKCS#11 module is loaded under Preferences > Privacy & Security > Security Devices.\n2. In Preferences > Privacy & Security > Certificates, set 'Ask me every time'.\n3. Retry and pick the Authentication cert (not EMAIL).",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "ssl_error_bad_cert_alert",
+      "firefox"
+    ]
+  },
+  {
+    "id": "firefox-master-password-prompt",
+    "title": "Firefox asks for 'Master Password for ActivIdentity ActivClient 0'",
+    "category": "browser",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Firefox repeatedly prompts for a 'master password'.",
+    "causes": "Firefox is asking for the CAC PIN but labels it 'master password'.",
+    "fix": "1. Type your 6-8 digit CAC PIN.\n2. Click OK.\n3. Alternatively, use IE/Edge for the same site if you do not want the prompt.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "firefox",
+      "master password",
+      "pin"
+    ]
+  },
+  {
+    "id": "firefox-cannot-see-pkcs11-windows",
+    "title": "Firefox does not see the CAC at all",
+    "category": "browser",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "symptoms": "Firefox prompts no certificate, or no security device is listed for the CAC.",
+    "causes": "Firefox does not consume the OS cert store; it needs the CAC PKCS#11 module loaded explicitly.",
+    "fix": "1. Install your middleware (ActivClient 7.1.0.153 on Windows, OpenSC on Mac/Linux).\n2. Firefox > Settings > Privacy & Security > Certificates > Security Devices > Load.\n3. Module name: 'CAC Module'.\n4. Module file path:\n   - Windows ActivClient 32-bit Firefox: C:\\Program Files (x86)\\HID Global\\ActivClient\\acpkcs211.dll\n   - Windows ActivClient 64-bit Firefox: C:\\Program Files\\HID Global\\ActivClient\\acpkcs211.dll\n   - Linux 64-bit CoolKey: /usr/lib64/libcoolkeypk11.so\n   - Linux 32-bit CoolKey: /usr/lib/libcoolkeypk11.so\n   - Linux CACkey: /usr/lib/libcackey.so\n   - Linux OpenSC: /usr/lib/opensc-pkcs11.so\n5. Click OK.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/firefox.htm",
+    "keywords": [
+      "firefox",
+      "pkcs11",
+      "security devices",
+      "acpkcs211"
+    ]
+  },
+  {
+    "id": "firefox-ssl-renegotiation",
+    "title": "Firefox SSL renegotiation error on government sites",
+    "category": "browser",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "symptoms": "Firefox throws an SSL renegotiation error on a CAC-enabled DoD site.",
+    "causes": "Firefox's strict renegotiation policy blocks the legacy renegotiation some DoD sites still require.",
+    "fix": "1. In Firefox address bar: about:config and accept the warning.\n2. Search: security.ssl.allow_unrestricted_renego_everywhere__temporarily_available_pref.\n3. Double-click to flip to true.\n4. Restart Firefox and retry.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/firefox.htm",
+    "keywords": [
+      "firefox",
+      "ssl renegotiation",
+      "about:config"
+    ]
+  },
+  {
+    "id": "safari-too-many-redirects",
+    "title": "Safari 'Too many redirects' on a DoD site",
+    "category": "browser",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Safari loops between redirects on a CAC site.",
+    "causes": "Cached cookies/state from previous failed attempts.",
+    "fix": "1. Safari > Reset Safari.\n2. Tick only 'Remove all cookies' and 'Empty the cache'.\n3. Click Reset.\n4. Retry the site.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "safari",
+      "too many redirects",
+      "cookies"
+    ]
+  },
+  {
+    "id": "ie-trusted-sites-required-server-verification",
+    "title": "Setting up Trusted Sites for *.mail.mil / *.osd.mil",
+    "category": "browser",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "DoD sites are slow, signed-email validation fails, or you get persistent security warnings.",
+    "causes": "The site is not in the IE Trusted Sites zone.",
+    "fix": "1. IE > Tools > Internet Options > Security tab.\n2. Click Trusted sites (green check) > Sites.\n3. Type the URL (e.g. https://*.mail.mil or https://*.osd.mil).\n4. Uncheck 'Require server verification (https:)' if the site uses HTTP for one phase.\n5. Add > Close > OK.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "trusted sites",
+      "ie",
+      "mail.mil",
+      "osd.mil"
+    ]
+  },
+  {
+    "id": "ie-tls-keeps-unchecking",
+    "title": "TLS keeps unchecking itself or SSL 2.0 keeps re-checking itself",
+    "category": "browser",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "In IE Advanced options, TLS settings revert immediately.",
+    "causes": "Antivirus (commonly McAfee) is rewriting the settings, or the IE configuration is corrupt.",
+    "fix": "1. IE > Tools > Internet Options > Advanced > Reset (under 'Reset Internet Explorer settings').\n2. If still reverting, uninstall McAfee and switch to a different antivirus.\n3. If still reverting, create a new Windows user profile.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "tls",
+      "ssl",
+      "internet explorer",
+      "mcafee"
+    ]
+  },
+  {
+    "id": "ssl-error-handshake-failure-waterfox",
+    "title": "Waterfox 'ssl_error_handshake_failure_alert' on PIV activation",
+    "category": "browser",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Waterfox throws ssl_error_handshake_failure_alert during PIV cert activation.",
+    "causes": "Waterfox was not configured the same way Firefox needs to be for CAC.",
+    "fix": "1. Configure Waterfox to use the CAC PKCS#11 module the same way as Firefox (Security Devices > Load > acpkcs211.dll or libcoolkeypk11.so).\n2. Restart Waterfox.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "waterfox",
+      "ssl handshake",
+      "piv"
+    ]
+  },
+  {
+    "id": "army365-piv-missing-old-cac",
+    "title": "Authentication certificate missing from a CAC issued before Feb 2018",
+    "category": "certs",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Army 365 (or any PIV-required site) does not show an 'Authentication' certificate in the picker.",
+    "causes": "CACs issued before February 2018 did not have the PIV/Authentication certificate pre-activated, so the slot is empty.",
+    "fix": "1. If the card is still in date (CAC lifespan max 3 years), activate the PIV cert at https://www.dmdc.osd.mil/self_service while signed in with the existing certificate.\n2. Otherwise visit an ID card office for a new CAC, which will ship with PIV pre-activated.\n3. The same activation also updates your email address from @mail.mil to @army.mil.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/army365.htm",
+    "keywords": [
+      "piv",
+      "authentication certificate",
+      "cac",
+      "pre-2018"
+    ]
+  },
+  {
+    "id": "mac-bad-certs-in-keychain",
+    "title": "Bad / cross-signed DoD certs in the Mac keychain",
+    "category": "certs",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Cannot authenticate to DoD sites on Mac even after installing the AllCerts bundle.",
+    "causes": "Old Federal Bridge or Interoperability certs are still trusted and outranking the DoD chain.",
+    "fix": "1. Open Keychain Access > login > All Items.\n2. Find and delete every entry of: DoD Root CA 2 (light blue background only), DoD Interoperability Root CA 1/2, Federal Bridge CA 2016 or 2013, Federal Common Policy CA, SHA-1 Federal Root CA G2, US DoD CCEB Interoperability Root CA 1.\n3. Close Keychain Access; retry.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/macnotes.htm",
+    "keywords": [
+      "mac",
+      "bad certs",
+      "federal bridge",
+      "keychain"
+    ]
+  },
+  {
+    "id": "certificate-empty-no-dod-certs",
+    "title": "Certificate selection box is empty when visiting a CAC site",
+    "category": "certs",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Browser prompts for a certificate but the list is empty, or no prompt appears at all and the page returns 403.7.",
+    "causes": "DoD root and intermediate certificates are not installed.",
+    "fix": "1. Install the current DoD certs - on Windows use InstallRoot 5.6 from militarycac.com/dodcerts.htm, on Mac use the AllCerts.p7b plus individual RootCert3-6.cer files.\n2. Run InstallRoot as Administrator if it errors out.\n3. Verify via Internet Options > Content > Certificates > Trusted Root Certification Authorities that DoD Root CA 3-6 are present.\n4. Verify Intermediate Certification Authorities contains DOD ID, DOD EMAIL, and DOD SW CA entries.",
+    "related_error_codes": [
+      "403.7",
+      "12221"
+    ],
+    "source_url": "https://militarycac.com/dodcerts.htm",
+    "keywords": [
+      "installroot",
+      "dod certificates",
+      "empty list",
+      "trusted root"
+    ]
+  },
+  {
+    "id": "mac-certs-not-trusted-red-x",
+    "title": "DoD Root CA shows red X (untrusted) after installing on Mac",
+    "category": "certs",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Newly installed DoD Root CA shows a red circle with white X in Keychain Access.",
+    "causes": "Cert was added without an explicit trust override.",
+    "fix": "1. Open Keychain Access > login > All Items.\n2. Double-click each untrusted DoD Root CA (3/4/5/6).\n3. Expand Trust > 'When using this certificate' > 'Always Trust'.\n4. Close - enter your Mac password when prompted.\n5. The icon turns to a light blue circle with a white plus.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/macnotes.htm",
+    "keywords": [
+      "mac",
+      "always trust",
+      "root ca",
+      "red x"
+    ]
+  },
+  {
+    "id": "error-12221-windows",
+    "title": "Error 12221 on Windows when accessing webmail",
+    "category": "certs",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Windows webmail returns 12221.",
+    "causes": "DoD certificates are missing or corrupt.",
+    "fix": "1. Install the latest DoD certificates from militarycac.com/dodcerts.htm.\n2. If still broken, delete every DoD cert via IE > Tools > Internet Options > Content > Certificates > Intermediate Certification Authorities > select and Remove.\n3. Reinstall via InstallRoot.",
+    "related_error_codes": [
+      "12221"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "12221",
+      "windows",
+      "dod certs"
+    ]
+  },
+  {
+    "id": "error-38-cac-invalid-revoked",
+    "title": "Error 38 'Your CAC is invalid, and may be revoked or expired'",
+    "category": "certs",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Activation or login returns Error 38.",
+    "causes": "DEERS / RAPIDS communication issue on certain days, OR the CAC really has been revoked or has expired.",
+    "fix": "1. Try again the next day - this is often a transient DEERS sync issue.\n2. If it persists, go to an ID card office for a new CAC.",
+    "related_error_codes": [
+      "38"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "38",
+      "revoked",
+      "expired",
+      "deers"
+    ]
+  },
+  {
+    "id": "error-403.7-missing-certs",
+    "title": "Error 403.7 'SSL client certificate is required'",
+    "category": "certs",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Browser returns 403.7 when reaching a CAC site.",
+    "causes": "DoD client/intermediate certificates are not installed, so the browser has nothing to present.",
+    "fix": "1. Install the DoD certificates with InstallRoot 5.6 from militarycac.com/dodcerts.htm.\n2. Restart the browser and try again.",
+    "related_error_codes": [
+      "403.7"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "403.7",
+      "ssl client certificate",
+      "installroot"
+    ]
+  },
+  {
+    "id": "error-500-internal-server",
+    "title": "Error 500 / 'Certificate is revoked' on CAC sites",
+    "category": "certs",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Webmail or other CAC sites return 'Error Code: 500 Internal Server Error' or 'Certificate is revoked'.",
+    "causes": "A bad cross-certificate or Federal Bridge cert is poisoning the chain, the wrong cert was offered, or the browser cached a failed handshake.",
+    "fix": "Windows:\n1. Run the IE configuration steps in the Making_AKO_work_with_Internet_Explorer guide.\n2. Run the Cross Cert Removal Tool v1.14 (3 Mar 2016) from militarycac.com.\n3. Make sure you pick the right cert (EMAIL vs PIV/Authentication) for the site.\n4. Close every browser window and retry.\n5. If still broken, call Army Enterprise Service Desk 866-335-2769.\nMac:\n1. Follow the Mac-specific keychain clean-up at militarycac.com/keychain.htm.\n2. Confirm the correct PIV Authentication cert is chosen.\n3. Clear the login keychain Identity Preference entries for the failing site.",
+    "related_error_codes": [
+      "500"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "500",
+      "revoked",
+      "cross cert",
+      "federal bridge"
+    ]
+  },
+  {
+    "id": "error-53-cac-revoked",
+    "title": "Error 53 'Your CAC certificates are invalid and access is revoked'",
+    "category": "certs",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Error 53 on PIV activation or login.",
+    "causes": "Certificates were revoked because of branch change, retirement, contract end-date change, or expiration.",
+    "fix": "1. Go to an ID card office for a new CAC.\n2. As a workaround, try 32-bit Internet Explorer with the standard IE configuration applied.",
+    "related_error_codes": [
+      "53"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "53",
+      "revoked",
+      "branch change"
+    ]
+  },
+  {
+    "id": "owa-tls-renegotiation-cleanup",
+    "title": "Mac/Windows: clean old encryption cert after a new CAC",
+    "category": "certs",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Signed/encrypted email partially works but coworkers cannot encrypt to you for ~24 hours after a new CAC.",
+    "causes": "GAL still has the old encryption cert.",
+    "fix": "1. From a government Outlook, Publish to GAL (see Outlook publish entry).\n2. Wait ~24 hours for replication.\n3. OWA-only users without Outlook can rely on https://dod411.gds.disa.mil to pull the new cert manually.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "new cac",
+      "publish to gal",
+      "encryption"
+    ]
+  },
+  {
+    "id": "remove-common-policy-popup",
+    "title": "Stop the 'Common Policy' cert installation popup in email",
+    "category": "certs",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "An email displays a 'Common Policy' install popup; clicking Yes breaks ATAAPS.",
+    "causes": "Senders' signatures sometimes include the Common Policy chain, and IE offers to add it.",
+    "fix": "1. When the popup appears, click NO.\n2. If you already clicked Yes, remove the Common Policy cert per the ATAAPS fix.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "common policy",
+      "popup",
+      "ataaps"
+    ]
+  },
+  {
+    "id": "email-incorrect-address-on-cac",
+    "title": "Wrong email address on the CAC",
+    "category": "certs",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Email cert lists an old or wrong address (e.g. legacy @us.army.mil instead of @mail.mil), causing GAL/Exchange mismatches.",
+    "causes": "Email address was not updated when units, branches, or services changed.",
+    "fix": "1. Go to https://www.dmdc.osd.mil/self_service.\n2. Sign in with CAC.\n3. Choose Replace Certificate. Edit the email field to the correct address.\n4. Or visit an ID card office to have it done in person.\n5. After ~30 hours the new cert publishes to the GAL.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "dmdc",
+      "self_service",
+      "email",
+      "replace certificate"
+    ]
+  },
+  {
+    "id": "chromebook-citrix-vdi",
+    "title": "Cannot reach Desktop Anywhere / AVD / Nautilus from a Chromebook",
+    "category": "chromeos",
+    "platforms": [
+      "chromeos"
+    ],
+    "symptoms": "Citrix-based virtual desktops (Air Force Desktop Anywhere, Navy Nautilus) and Azure Virtual Desktop refuse to launch on ChromeOS.",
+    "causes": "Neither Citrix Workspace nor Microsoft AVD has a working ChromeOS client.",
+    "fix": "1. Use the Hypori mobile app on a phone/tablet for Army services.\n2. Otherwise switch to a Windows or Mac computer.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/chromebook.htm",
+    "keywords": [
+      "chromebook",
+      "citrix",
+      "avd",
+      "vdi"
+    ]
+  },
+  {
+    "id": "chromebook-cert-install-order",
+    "title": "Certificates not recognized after install on ChromeOS",
+    "category": "chromeos",
+    "platforms": [
+      "chromeos"
+    ],
+    "symptoms": "Installed certificates do not appear in Chrome; CAC sites still throw cert errors.",
+    "causes": "Files were imported in the wrong order or the Trust checkboxes were not ticked for each.",
+    "fix": "1. Chrome > three-dot menu > Settings > Privacy and security > Security.\n2. Scroll to Advanced > Manage device certificates.\n3. Click Authorities tab.\n4. Re-import in this exact order: RootCert6.p7b, RootCert5.p7b, RootCert4.p7b, RootCert3.p7b, AllCerts.p7b.\n5. For each file, tick ALL THREE trust checkboxes (websites, email users, software developers) and click OK.\n6. Verify by scrolling to the 'org-U.S. Government' section.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/chromebook.htm",
+    "keywords": [
+      "chromebook",
+      "certificates",
+      "p7b",
+      "import order"
+    ]
+  },
+  {
+    "id": "chromebook-cac-no-longer-works",
+    "title": "Chromebook CAC support effectively ended April 2025",
+    "category": "chromeos",
+    "platforms": [
+      "chromeos"
+    ],
+    "symptoms": "After April 1, 2025, the previously working DriveLock + Smart Card Connector extensions stopped functioning.",
+    "causes": "Google retired the Chrome Web Store hosting model used to ship the CAC middleware and moved to Progressive Web Apps (PWA). The replacement PWA has not been published.",
+    "fix": "There is no current ChromeOS solution. Workarounds:\n1. Army: use Hypori on a phone/tablet for Army 365.\n2. Use a Windows or Mac computer.\n3. Watch militarycac.com/chromebook.htm for a future PWA release.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/chromebook.htm",
+    "keywords": [
+      "chromebook",
+      "chromeos",
+      "pwa",
+      "drivelock",
+      "april 2025"
+    ]
+  },
+  {
+    "id": "owa-active-x-enabled",
+    "title": "'ActiveX control needs to be enabled' on OWA",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "OWA throws an ActiveX-required message.",
+    "causes": "ActiveX is disabled in IE.",
+    "fix": "Apply the Making_AKO_work_with_Internet_Explorer guide from militarycac.com - it sets every ActiveX option OWA needs.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "activex",
+      "ie"
+    ]
+  },
+  {
+    "id": "owa-attachment-encoded-unsupported",
+    "title": "'Attachment encoded in a format OWA doesn't recognize'",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "OWA refuses to render an attachment.",
+    "causes": "Attachment uses a content type / encoding OWA cannot display.",
+    "fix": "1. Reply to the sender and ask them to resend in a standard format (PDF, DOCX, JPG).\n2. Or have them resend unencrypted (S/MIME-encrypted attachments sometimes confuse OWA's renderer).",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "attachment",
+      "encoded",
+      "unsupported"
+    ]
+  },
+  {
+    "id": "owa-ldap-rw-connection",
+    "title": "'Cannot connect to LDAP server / directory.us.army.mil'",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Outlook LDAP address book fails to connect.",
+    "causes": "Outdated DoD certs, or the LDAP connector password was not updated after an AKO password change.",
+    "fix": "1. Install the latest DoD certificates.\n2. If you recently changed your AKO password, update the LDAP connector with the new password in Outlook's account settings.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "ldap",
+      "outlook",
+      "address book"
+    ]
+  },
+  {
+    "id": "outlook-cycle-cac-on-invalid-cert",
+    "title": "'Invalid certificate' on send - re-bind CAC to Windows",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Outlook returns 'Invalid certificate' when sending.",
+    "causes": "Cert handle dropped between ActivClient and Windows.",
+    "fix": "1. Remove and reinsert the CAC, then retry.\n2. Or open ActivClient > right-click My Certificates > Make Certificates Available to Windows, then retry.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "outlook",
+      "invalid certificate",
+      "make available"
+    ]
+  },
+  {
+    "id": "owa-message-cannot-be-decrypted",
+    "title": "'Message can't be decrypted' in OWA",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Encrypted message will not open in OWA, and the smart card prompt may reappear.",
+    "causes": "The email address on the CAC does not match the address on the Exchange profile.",
+    "fix": "1. Confirm the @mail.mil address on the CAC at https://www.dmdc.osd.mil/self_service.\n2. If wrong, update the address there (Replace Certificate) or visit an ID card office.\n3. Wait ~30 hours for the new cert to publish to the GAL.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "decrypt",
+      "owa",
+      "mail.mil",
+      "address mismatch"
+    ]
+  },
+  {
+    "id": "outlook-no-digital-id",
+    "title": "'No digital ID for signing has been found' on dual-CAC user",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Outlook throws 'No digital ID for signing has been found' when sending encrypted email, especially for users with both military and civilian CACs.",
+    "causes": "AKO email address is on the wrong CAC.",
+    "fix": "1. Update the email address on the CAC at https://www.dmdc.osd.mil/self_service or at an ID card office.\n2. Clear old certs per slide 23 of the Making_AKO_work_with_Internet_Explorer PDF.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "digital id",
+      "dual persona",
+      "outlook"
+    ]
+  },
+  {
+    "id": "owa-popup-64bit-epm",
+    "title": "'Pop-ups are currently blocked by the browser' in OWA",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "OWA throws a pop-up-blocker error even after disabling browser pop-up blockers.",
+    "causes": "64-bit Enhanced Protected Mode is enabled in IE.",
+    "fix": "1. IE > Tools > Internet Options > Advanced.\n2. Scroll to Security.\n3. Uncheck 'Enable 64-bit processes for Enhanced Protected Mode'.\n4. Restart IE.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "popup",
+      "enhanced protected mode"
+    ]
+  },
+  {
+    "id": "owa-validation-errors-signed",
+    "title": "'Problems validating this signature' on signed emails in OWA",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Signed messages open but show a signature validation error.",
+    "causes": "*.mail.mil is not in IE Trusted Sites.",
+    "fix": "1. IE > Tools > Internet Options > Security > Trusted sites > Sites.\n2. Add https://*.mail.mil > Close > OK.\nFor other branches, follow win10smime.pdf.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "signed email",
+      "validation",
+      "trusted sites"
+    ]
+  },
+  {
+    "id": "owa-smart-card-was-detected-not-the-one-required",
+    "title": "'Smart card was detected but is not the one required'",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "After a CAC swap, OWA insists the wrong card is in the reader.",
+    "causes": "Old certs are still cached in the browser.",
+    "fix": "Apply slide 23 of the Making_AKO_work_with_Internet_Explorer PDF to clear old certs.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "smart card",
+      "wrong card",
+      "new cac"
+    ]
+  },
+  {
+    "id": "email-cannot-encrypt-no-public-key",
+    "title": "'You do not have a valid certificate to encrypt to this recipient'",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Outlook refuses to encrypt to a specific person.",
+    "causes": "You do not have that person's public key in your contacts.",
+    "fix": "1. Ask the recipient to send you a digitally signed email.\n2. Right-click their name on the signed message > Add to Contacts > Save.\n3. New message > address from Contacts > Options > Security Settings > tick 'Encrypt message contents and attachments' > Send.\n4. Or look the person up at https://dod411.gds.disa.mil, download their cert, create a contact, and attach the cert to it.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "encrypt",
+      "public key",
+      "gal",
+      "dod411"
+    ]
+  },
+  {
+    "id": "army365-attachment-download-blocked",
+    "title": "'Your organization doesn't allow you to download attachments' in Army 365",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "On a home/non-managed computer, opening Army 365 webmail blocks attachment download and print with the message: 'Your organization doesn't allow you to download or print attachments from this device or browser.'",
+    "causes": "Microsoft 365 Conditional Access policy blocks attachment download from unmanaged devices.",
+    "fix": "1. Ask the sender to resend the attachment via https://safe.apps.mil (DoD SAFE).\n2. Or open the message from a government computer on the .mil network where the Conditional Access policy is satisfied.\n3. There is no client-side override - the block is server-enforced.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/army365.htm",
+    "keywords": [
+      "army 365",
+      "conditional access",
+      "attachment",
+      "safe.apps.mil"
+    ]
+  },
+  {
+    "id": "owa-smime-out-of-date",
+    "title": "'Your S/MIME control is out of date'",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "OWA refuses to encrypt/sign because the S/MIME control is out of date.",
+    "causes": "The locally installed S/MIME control needs reinstall.",
+    "fix": "1. Open mail.mil in 32-bit IE.\n2. Options > See All Options > Settings > S/MIME > download the S/MIME control.\nNote: 32-bit IE only - not Edge, Chrome, Firefox, or Mac.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "smime",
+      "out of date",
+      "owa"
+    ]
+  },
+  {
+    "id": "outlook-prompt-windows-mail-card",
+    "title": "ActivClient prompts for smart card every time Windows Mail opens",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Windows Mail opening triggers repeated smart card prompts.",
+    "causes": "ActivClient is set to keep the certs in Windows after removal.",
+    "fix": "1. Open ActivClient > Tools > Advanced > Configuration.\n2. Change 'Remove certificates from Windows on Smart Card removal' to Yes.\n3. Or, if you are on Win7 native smart card stack, switch to ActivClient instead.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "windows mail",
+      "activclient",
+      "prompt"
+    ]
+  },
+  {
+    "id": "army365-calendar-zulu-time",
+    "title": "Army 365 calendar and emails show Zulu (UTC) time",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Meetings and message timestamps display in Zulu rather than your local time zone.",
+    "causes": "Default time zone was left at UTC during first sign-in.",
+    "fix": "1. Open https://webmail.apps.mil.\n2. Click the gear icon (top right).\n3. Click 'View all Outlook settings'.\n4. General > Language and time.\n5. Change 'Current time zone' to your local zone.\n6. Click Save.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/army365.htm",
+    "keywords": [
+      "army 365",
+      "time zone",
+      "zulu",
+      "calendar"
+    ]
+  },
+  {
+    "id": "army365-blank-login-needs-email",
+    "title": "Army 365 webmail shows a blank login that asks for your full email",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Going to https://webmail.apps.mil shows a generic Microsoft sign-in instead of auto-detecting your CAC.",
+    "causes": "Army 365 requires home-realm discovery via your email address before redirecting to the federated CAC login.",
+    "fix": "1. Type your full Army 365 email: firstname.middle.last.mil@army.mil (or .civ@army.mil for civilians).\n2. Click Next.\n3. Choose 'Sign in with CAC/PIV'.\n4. In the certificate picker, choose the certificate labeled 'Authentication' (not EMAIL).\n5. Enter your 6-8 digit PIN.\n6. Approve any 'Stay signed in' prompt.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/army365.htm",
+    "keywords": [
+      "army 365",
+      "webmail.apps.mil",
+      "login"
+    ]
+  },
+  {
+    "id": "owa-attachment-not-visible-ie11",
+    "title": "Attachments not visible in OWA / mail.mil drafts on IE11",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "After attaching a file, the attachment does not appear in the draft, but recipients still get it.",
+    "causes": "Rendering bug in IE11 against OWA.",
+    "fix": "1. Save as draft, close, and reopen - the attachment becomes visible.\n2. Or send from Chrome (Chrome cannot encrypt).\n3. Or install Microsoft Silverlight from microsoft.com/getsilverlight.\n4. Or apply the win10smime.pdf configuration.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "attachment",
+      "ie11"
+    ]
+  },
+  {
+    "id": "army365-no-outlook-from-home",
+    "title": "Cannot connect Outlook desktop app to @army.mil from a home computer",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Adding @army.mil to Outlook fails; account add wizard errors out from any non-.mil/.gov network.",
+    "causes": "Army 365 is configured to refuse Outlook/MAPI/EAS access from networks outside .mil/.gov.",
+    "fix": "Use any of these supported paths:\n1. Set Army 365 to forward to another .mil/.gov address (see militarycac.com/files/forwarding_ArmyMail.pdf).\n2. Use a government-furnished mobile device.\n3. VPN into a government network with a government laptop.\n4. Use the unit's Citrix or AVD environment.\n5. Use OWA on iPhone/iPad/Android with a mobile CAC reader.\n6. Install Hypori on your personal device.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/army365.htm",
+    "keywords": [
+      "army 365",
+      "outlook",
+      "home computer",
+      "hypori",
+      "vpn"
+    ]
+  },
+  {
+    "id": "email-publish-to-gal-after-new-cac",
+    "title": "Cannot encrypt to a coworker after either of you got a new CAC",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "After a CAC reissue, encrypted email starts failing with 'message could not be decrypted' or signature validation errors.",
+    "causes": "The GAL still has the old encryption certificate.",
+    "fix": "Publish the new certs to the GAL from a government Outlook:\n- Outlook 2016/2013/2010: File > Options > Trust Center > Trust Center Settings > E-mail Security > Publish to GAL.\n- Outlook 2007: Tools > Trust Center > E-mail Security > Publish to GAL.\n- Outlook 2003: Tools > Options > Security > Publish to GAL.\nWait ~24 hours for replication.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "publish to gal",
+      "outlook",
+      "encryption"
+    ]
+  },
+  {
+    "id": "owa-mail-mil-encrypted-control",
+    "title": "Cannot read encrypted email in mail.mil OWA",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Encrypted messages do not display in OWA.",
+    "causes": "OWA's S/MIME control is missing or out of date.",
+    "fix": "1. Add https://*.mail.mil to IE Trusted Sites first.\n2. Open mail.mil in 32-bit IE only (NOT Edge, Chrome, Firefox, or any 64-bit IE).\n3. Options > See All Options > Settings > S/MIME > 'download the S/MIME control'.\n4. If the S/MIME page does not appear, uncheck the 'blind and low vision experience' under Accessibility.\n5. Tools > Safety > make sure ActiveX Filtering is OFF.\n6. Verify your @mail.mil address on the CAC at https://www.dmdc.osd.mil/self_service.\n7. For a new CAC, run the Automatic Key Recovery process from a .mil network first.\n8. Air Force users: see militarycac.com/smime.htm. Mac users: try github.com/af-vcd/mrs-smime.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "smime",
+      "mail.mil",
+      "encrypted"
+    ]
+  },
+  {
+    "id": "email-key-recovery-after-new-cac",
+    "title": "Cannot read old encrypted emails after getting a new CAC",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Old encrypted messages are unreadable because the new CAC has different keys.",
+    "causes": "Each CAC issuance generates new email encryption keys; old keys must be recovered.",
+    "fix": "1. From a government computer on the .mil network with your current CAC plugged in, follow the DoD Automatic Key Recovery process (the AKR PDF on militarycac.com).\n2. The wizard re-issues your historical encryption keys, which Outlook then uses to open old messages.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "key recovery",
+      "akr",
+      "old encrypted",
+      "new cac"
+    ]
+  },
+  {
+    "id": "coast-guard-owa-discontinued",
+    "title": "Coast Guard OWA link no longer works (Office 365 migration)",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "USCG OWA URL stopped working.",
+    "causes": "Coast Guard migrated to Office 365.",
+    "fix": "1. Use VMware Horizon to reach the new mailbox.\n2. Ask the unit for specific access details.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/owa.htm",
+    "keywords": [
+      "coast guard",
+      "office 365",
+      "horizon"
+    ]
+  },
+  {
+    "id": "dee-mailbox-over-512mb",
+    "title": "DEE mailbox over 512 MB cannot send",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "DoD Enterprise Email refuses to send because the mailbox has exceeded its quota.",
+    "causes": "Standard DEE accounts are capped at 512 MB. Business Class accounts are larger.",
+    "fix": "1. Call AESD at 866-335-2769 and ask who your Entitlement Manager is.\n2. Email the Entitlement Manager and request a Business Class upgrade.\n3. AESD may upgrade based on your position.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "dee",
+      "mailbox",
+      "quota",
+      "business class",
+      "512mb"
+    ]
+  },
+  {
+    "id": "edge-cannot-do-smime",
+    "title": "Edge cannot read or send encrypted (S/MIME) email",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "OWA / Enterprise Email opens in Edge, but the S/MIME control will not install and encrypted messages will not decrypt.",
+    "causes": "OWA's S/MIME implementation depends on ActiveX, which Edge does not support.",
+    "fix": "1. Use 32-bit Internet Explorer 11 for any encrypted message read/send.\n2. Install the S/MIME control from OWA > Options > See All Options > Settings > S/MIME.\n3. On Windows 11 (no IE11 available) there is no native S/MIME path - wait on Microsoft's replacement or use a government workstation.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/windows11.htm",
+    "keywords": [
+      "edge",
+      "smime",
+      "owa",
+      "encrypted email"
+    ]
+  },
+  {
+    "id": "outlook-imap-encrypt-sign-buttons",
+    "title": "Encrypt / Sign buttons missing for AKO IMAP in Outlook",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Encrypt/Sign buttons not visible when composing.",
+    "causes": "Hidden under the Options tab.",
+    "fix": "1. New message.\n2. Click the Options tab.\n3. Encrypt and Sign are there.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "outlook",
+      "encrypt button",
+      "imap"
+    ]
+  },
+  {
+    "id": "email-decrypt-cac-pin-prompt-mac",
+    "title": "Encrypted message will not decrypt in OWA on Mac (cycle the message)",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "OWA fails to decrypt the message; the cert/PIN prompt does not trigger.",
+    "causes": "OWA failed to bind to the CAC for that session.",
+    "fix": "1. Pull the CAC out, reinsert it.\n2. Click a different email, then click back to the encrypted one.\n3. Enter PIN when prompted - the message should decrypt.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "owa",
+      "decrypt",
+      "encrypted",
+      "cycle"
+    ]
+  },
+  {
+    "id": "outlook-publish-to-gal",
+    "title": "How to publish your CAC certificates to the GAL",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Coworkers cannot encrypt to you, or you cannot send encrypted messages after a CAC change.",
+    "causes": "The new certificate has not been published to the Global Address List.",
+    "fix": "From an Outlook session on a government computer with the CAC:\n- Outlook 2016/2013/2010: File > Options > Trust Center > Trust Center Settings > E-mail Security > Publish to GAL.\n- Outlook 2007: Tools > Trust Center > E-mail Security > Publish to GAL.\n- Outlook 2003: Tools > Options > Security > Publish to GAL.\nWait ~24 hours for GAL replication.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "publish to gal",
+      "outlook",
+      "encryption"
+    ]
+  },
+  {
+    "id": "error-400-owa-overloaded",
+    "title": "HTTP 400 Bad Request after PIN at Navy OWA",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Navy OWA accepts the PIN then returns HTTP 400.",
+    "causes": "OWA servers under heavy load.",
+    "fix": "1. Wait and try later.\n2. Or call the help desk at 866-843-6624.",
+    "related_error_codes": [
+      "400"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "400",
+      "owa",
+      "navy"
+    ]
+  },
+  {
+    "id": "owa-mac-edge-or-user-agent",
+    "title": "Mac users blocked from O365 webmail (USMC, Navy, AF)",
+    "category": "email",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Mac OWA login at https://o365.usmc.mil, https://webmail.cloud.navy.mil, or https://usaf-my.dps.mil fails.",
+    "causes": "Site sniffs Safari and refuses it; user lacks an authorized account in the new tenant.",
+    "fix": "1. First, call NMCI/your help desk and ensure your CAC is authenticated to the new account.\n2. Option A: install Microsoft Edge for Mac and use Edge to log in.\n3. Option B: Safari > Preferences > Advanced > tick Show Develop menu > Develop > User Agent > Microsoft Edge > revisit the URL.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/MacQuestions.htm",
+    "keywords": [
+      "mac",
+      "edge",
+      "user agent",
+      "o365",
+      "navy",
+      "usmc",
+      "air force"
+    ]
+  },
+  {
+    "id": "mac-attachments-silverlight",
+    "title": "Mac users cannot attach files in OWA",
+    "category": "email",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Cannot attach files to OWA messages on a Mac.",
+    "causes": "Silverlight (which Mac OWA used for attachment upload) is not installed.",
+    "fix": "1. Close OWA.\n2. Install Microsoft Silverlight from microsoft.com/getsilverlight.\n3. Log back into OWA and attach the file.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "mac",
+      "owa",
+      "silverlight",
+      "attachment"
+    ]
+  },
+  {
+    "id": "navy-flank-speed-migration",
+    "title": "Navy account migrated to Flank Speed; old OWA URL no longer works",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Navy users lose access to old Outlook URLs after Flank Speed migration.",
+    "causes": "Navy moved to Office 365 (Flank Speed) and shut down legacy links.",
+    "fix": "1. Update all shortcuts to https://outlook-dod.office365.us/.\n2. Follow the FS_2_OutlookGuide16NOV2021.pdf migration guide.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/Navy.htm",
+    "keywords": [
+      "navy",
+      "flank speed",
+      "office 365"
+    ]
+  },
+  {
+    "id": "navy-nmci-east-west-switch",
+    "title": "Navy OWA on one server fails - try the other regional server",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Previously-working Navy OWA URL stops working.",
+    "causes": "NMCI shuffles users between East and West coast servers.",
+    "fix": "1. If East fails, try https://webmail.west.cloud.navy.mil.\n2. If West fails, try https://webmail.east.cloud.navy.mil.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/owa.htm",
+    "keywords": [
+      "navy",
+      "nmci",
+      "east",
+      "west"
+    ]
+  },
+  {
+    "id": "owa-shared-mailbox",
+    "title": "Open a shared (NPE) mailbox in OWA",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Need to open a shared / non-person mailbox in OWA.",
+    "causes": "Workflow, not a defect.",
+    "fix": "1. Click your name in the top right.\n2. Start typing the shared mailbox name.\n3. Select it from the dropdown.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "shared mailbox",
+      "npe"
+    ]
+  },
+  {
+    "id": "email-extend-dat-error",
+    "title": "Outlook error 'An extension file failed to initialize' (extend.dat)",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "After installing ActivClient, Outlook throws an extend.dat / extension-file error on startup.",
+    "causes": "Corrupt extend.dat caching after the install.",
+    "fix": "1. Close Outlook.\n2. Show hidden files (Control Panel > Folder Options > View > Show hidden files).\n3. Navigate to:\n   - Vista/7/10/11: C:\\Users\\<user>\\AppData\\Local\\Microsoft\\Outlook\n   - XP: C:\\Documents and Settings\\<user>\\Local Settings\\Application Data\\Microsoft\\Outlook\n4. Rename extend.dat to extend.bak.\n5. Reopen Outlook (it will rebuild the file).",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "outlook",
+      "extend.dat",
+      "extension file"
+    ]
+  },
+  {
+    "id": "owa-dual-persona-ldap-conflict",
+    "title": "Outlook keeps prompting for the wrong account on a Dual Persona setup",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Outlook keeps asking for credentials for a Dual Persona user.",
+    "causes": "AGM/Office mix of 64-bit and 32-bit components on mail.mil.",
+    "fix": "Follow Windows7DualPersonaAndOutlook.pdf from militarycac.com to align Outlook to the correct mailbox/identity.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "dual persona",
+      "outlook",
+      "agm"
+    ]
+  },
+  {
+    "id": "email-cannot-sign-prompt-loop",
+    "title": "Outlook prompts for a certificate every time and says 'Invalid Certificate - cannot sign or encrypt'",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "After ActivClient is installed, Outlook keeps asking which cert to use, then refuses to sign/encrypt.",
+    "causes": "Outlook's E-mail Security options are set to sign / encrypt by default but Outlook does not know which cert to use.",
+    "fix": "Turn off the default sign/encrypt boxes:\n- Outlook 2013/2010: File > Options > Trust Center > Trust Center Settings > E-mail Security > uncheck the top four boxes.\n- Outlook 2007: Tools > Trust Center > E-mail Security > uncheck the top four boxes.\n- Outlook 2003: Tools > Options > Security tab > uncheck the top four boxes.\nThen pick sign/encrypt manually per message.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "outlook",
+      "invalid certificate",
+      "sign",
+      "encrypt"
+    ]
+  },
+  {
+    "id": "owa-new-button-broken-81",
+    "title": "OWA 'New' button does nothing on Windows 8.1",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Cannot start a new message in OWA on Windows 8.1 / IE11.",
+    "causes": "Browser-mode / document-mode mismatch.",
+    "fix": "1. In IE press F12 to open Developer Tools.\n2. Set Browser Mode to any IE11 or compatibility mode down to IE7.\n3. Set Document Mode to IE8 Standards or higher.\n4. Retry.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "new button",
+      "windows 8.1",
+      "document mode"
+    ]
+  },
+  {
+    "id": "owa-error-0x80040154-malwarebytes",
+    "title": "OWA error 0x80040154 when sending encrypted email",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Cannot send encrypted email; error 0x80040154 appears.",
+    "causes": "Malwarebytes is blocking IE VBScript.",
+    "fix": "1. Quick test: right-click Malwarebytes in the tray and exit it.\n2. Permanent: Open Malwarebytes > Settings > Protection > Advanced Settings > Application Hardening tab > untick 'Disable Internet Explorer VB Scripting' under Browsers > Apply.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "malwarebytes",
+      "0x80040154",
+      "encrypt"
+    ]
+  },
+  {
+    "id": "owa-lockup-skype-c2c",
+    "title": "OWA locks up when deleting/moving email",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "OWA freezes on delete, move, or dismiss-reminder.",
+    "causes": "Skype Click to Call auto-installs and hooks phone numbers in the page.",
+    "fix": "1. Control Panel > Programs and Features.\n2. Uninstall Skype Click to Call.\n3. Reload OWA.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "skype",
+      "click to call",
+      "freeze"
+    ]
+  },
+  {
+    "id": "owa-https-503",
+    "title": "OWA returns 'HTTP/1.1 503 Service Unavailable'",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Webmail returns 503.",
+    "causes": "Exchange server is down or maintenance.",
+    "fix": "1. Wait and retry later.\n2. Check status at https://status.mail.mil (uses Email or PIV cert).",
+    "related_error_codes": [
+      "503"
+    ],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "503",
+      "exchange down"
+    ]
+  },
+  {
+    "id": "lync-browser-helper-blocks-owa",
+    "title": "OWA send fails with error 0x80004003 (Lync Browser Helper)",
+    "category": "email",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Cannot send email in OWA; error 0x80004003.",
+    "causes": "Lync/Skype Browser Helper add-on is interfering.",
+    "fix": "1. IE > Tools > Manage Add-ons.\n2. Find Lync Browser Helper > Disable.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "lync",
+      "owa",
+      "0x80004003"
+    ]
+  },
+  {
+    "id": "army-spc-no-army-mil-google-workspace",
+    "title": "SPC and below don't get an @army.mil mailbox",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux",
+      "ios",
+      "android"
+    ],
+    "symptoms": "Junior enlisted personnel are told they will not receive an @army.mil address and cannot sign into Army 365.",
+    "causes": "Army policy limits @army.mil to E-5 and above; lower ranks are provisioned in Google Workspace under @usa.army.mil.",
+    "fix": "1. Go to https://mail.google.com/a/usa.army.mil.\n2. Sign in as firstname.middle.last.mil@usa.army.mil.\n3. Authenticate with CAC.\n4. See https://militarycac.com/armygoogleworkspace.htm for the full setup walkthrough.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/army365.htm",
+    "keywords": [
+      "army",
+      "google workspace",
+      "spc",
+      "junior enlisted"
+    ]
+  },
+  {
+    "id": "owa-conversation-view-off",
+    "title": "Turn off Conversation view in OWA",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "OWA groups emails into threads you do not want.",
+    "causes": "Conversation view is on by default.",
+    "fix": "1. In OWA, click the View menu.\n2. Uncheck 'Use Conversations'.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "owa",
+      "conversation view"
+    ]
+  },
+  {
+    "id": "owa-socom-edge",
+    "title": "webmail.socom.mil requires Edge on Mac",
+    "category": "email",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "SOCOM webmail will not load in Safari/Chrome on Mac.",
+    "causes": "Browser compatibility on the SOCOM endpoint.",
+    "fix": "1. Install Microsoft Edge for Mac.\n2. Open https://webmail.socom.mil.\n3. Authenticate with CAC.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/MacQuestions.htm",
+    "keywords": [
+      "socom",
+      "edge",
+      "mac"
+    ]
+  },
+  {
+    "id": "owa-3-letter-codes-explained",
+    "title": "What do the three-letter codes (mil, civ, ctr) in an email address mean?",
+    "category": "email",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Users confused by addresses like first.m.last.mil@mail.mil vs first.m.last.civ@mail.mil.",
+    "causes": "DoD PIV Transitional Implementation Guide formats.",
+    "fix": "The code denotes employment category: .mil = uniformed military, .civ = DoD civilian, .ctr = contractor. There is no fix needed - it is informational only.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "mil",
+      "civ",
+      "ctr",
+      "email format"
+    ]
+  },
+  {
+    "id": "f5-session-could-not-be-established",
+    "title": "'f5, Your session could not be established'",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Enterprise Email or another DoD site refuses login with an F5 session error.",
+    "causes": "Old session/cached cert is being reused; on Dual Persona users the PIV cert may not be exposed.",
+    "fix": "Windows:\n1. Apply the IE configuration guide.\n2. If Dual Persona, expose the PIV certificate per militarycac.com/PIV.htm.\nMac:\n1. Clear the keychain login entries for the failing site (Keychain Access > login > delete Identity Preferences for the host).\n2. Safari > Settings > Privacy > Manage Website Data > Remove the site.\n3. Retry and select the Authentication certificate.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/MacQuestions.htm",
+    "keywords": [
+      "f5",
+      "session",
+      "enterprise email",
+      "piv"
+    ]
+  },
+  {
+    "id": "airforce-browser-cert-problem",
+    "title": "AF Portal: 'There was a problem with this browser accessing your CAC for authentication'",
+    "category": "general",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "AF Portal complains the browser cannot access the CAC.",
+    "causes": "Stale SSL state or wrong system clock.",
+    "fix": "1. Verify the clock and time zone.\n2. IE > Tools > Internet Options > Content > 'Clear SSL state'.\n3. Close all browser windows and retry.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/airforce.htm",
+    "keywords": [
+      "air force",
+      "clear ssl state"
+    ]
+  },
+  {
+    "id": "airforce-ca-not-recognized",
+    "title": "Air Force Portal: 'Your CA was not recognized'",
+    "category": "general",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "AF Portal returns 'Your CA was not recognized. Contact your CSA/LAN support team for assistance with DoD certs.'",
+    "causes": "Conflicting DoD Root CA 2 certs from the Federal Bridge are installed.",
+    "fix": "1. Run the Cross Cert Removal Tool (linked from slide 15 of the AKO IE configuration PDF).\n2. After removal, navigate directly to https://www.my.af.mil.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/airforce.htm",
+    "keywords": [
+      "air force",
+      "ca not recognized",
+      "cross cert"
+    ]
+  },
+  {
+    "id": "ako-insert-card-despite-present",
+    "title": "AKO/AMID says 'Insert Card' even though the CAC is in the reader",
+    "category": "general",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "AKO or AMID throws 'Insert card' although ActivClient sees the CAC fine.",
+    "causes": "IE's personal cert store is corrupt or the cert is not bound to Windows.",
+    "fix": "1. IE > Tools > Internet Options > Content > Certificates > Personal > delete all listed certificates.\n2. Eject and reinsert the CAC - IE should auto-reload the certs.\n3. If not, open ActivClient > Tools > Advanced > Make Certificates Available to Windows.\n4. Retry.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/ako.htm",
+    "keywords": [
+      "ako",
+      "amid",
+      "insert card"
+    ]
+  },
+  {
+    "id": "antivirus-blocks-mail-mil",
+    "title": "Antivirus or web protection blocks mail.mil and other CAC sites",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "CAC sites (most commonly webmail) fail to load, hang, or strip out the CAC prompt; disabling the antivirus temporarily makes the site work.",
+    "causes": "Modern antivirus suites perform HTTPS interception (TLS man-in-the-middle scanning). That breaks client-certificate authentication because the AV terminates the TLS session before the CAC certificate can be presented.",
+    "fix": "Add 'https://*.mail.mil' (and any other failing DoD URL) to the trusted-sites / exclusion list of your antivirus, then turn off HTTPS / encrypted scanning. Product-specific paths:\n- Avast: Settings > General > Exclusions > add *mail.mil. Also turn off Web Shield while testing.\n- AVG: Add https://*.mail.mil to the exceptions list.\n- Bitdefender: Protection > Settings > Online Threat Prevention > turn off 'Encrypted web scan'.\n- Cisco AnyConnect (Mac): uninstall the 'Cisco Umbrella Plugin'.\n- Covenant Eyes: uninstall and call 877-479-1119.\n- ESET: add the sites to the exclusion list per ESET KB2960.\n- Kaspersky: Settings > Additional > Network > set 'Encrypted connections scanning' to 'Do not scan'; uncheck 'Inject script into web traffic'; turn off Parental Controls.\n- McAfee: add https://*.mail.mil to allowed sites; for stubborn issues, uninstall using the McAfee removal tool.\n- Malwarebytes: Settings > Protection > Advanced > uncheck 'Disable Internet Explorer VB Scripting'.\n- NordVPN: turn off Threat Protection > Web Protection.\n- Qustodio / McAfee Safe Family: uninstall (parental controls cannot be configured around CAC).\n- Total Defense: gear shield > Web Protection > turn off 'Scan Secured Websites'.\n- Windows Defender SmartScreen: Internet Options > Advanced > turn off SmartScreen.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "antivirus",
+      "kaspersky",
+      "avast",
+      "mcafee",
+      "bitdefender",
+      "https scanning",
+      "tls"
+    ]
+  },
+  {
+    "id": "ncroles-arows-safari-incompat",
+    "title": "AROWS / NROWS rejects Safari on Mac",
+    "category": "general",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "AROWS (Air Force) or NROWS (Navy) stops at the login page with a browser-incompatible error on macOS.",
+    "causes": "The site sniffs Safari and refuses it.",
+    "fix": "1. Safari > Preferences > Advanced > tick 'Show Develop menu in menu bar'.\n2. When the incompatibility page appears, Develop > User Agent > Internet Explorer (6.0+).\n3. The page refreshes; for AROWS paste https://arowsr.afrc.af.mil/arows-r; for NROWS click back to the login.\nChrome alternative: install User-Agent Switcher and set it to report Internet Explorer.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/airforce.htm",
+    "keywords": [
+      "arows",
+      "nrows",
+      "safari",
+      "user agent"
+    ]
+  },
+  {
+    "id": "avd-mac-keychain-stuck",
+    "title": "Azure Virtual Desktop stopped working on Mac",
+    "category": "general",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "AVD that previously worked on macOS now fails to authenticate after a Microsoft Remote Desktop update or password rotation.",
+    "causes": "Stored Identity Preferences in the login keychain point at stale Microsoft endpoints, or the Remote Desktop cache is corrupt.",
+    "fix": "1. Open Keychain Access > login > All Items.\n2. Delete Identity Preference entries for https:// and https://certauth.login.microsoftonline.us.\n3. Restart Microsoft Remote Desktop.\nIf that fails:\n4. Uninstall Microsoft Remote Desktop.\n5. In Finder, hold Option, choose Go > Library > Caches, and delete the folder 'com.microsoft.rdc.osx.beta'.\n6. Reinstall Microsoft Remote Desktop from the App Store and re-add the AVD workspace.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/avd.htm",
+    "keywords": [
+      "avd",
+      "azure virtual desktop",
+      "mac",
+      "remote desktop",
+      "keychain"
+    ]
+  },
+  {
+    "id": "blocked-cac-locked",
+    "title": "CAC blocked after too many wrong PINs",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "CAC will not authenticate; PIN prompts loop or return 'PIN incorrect' immediately even with the right PIN.",
+    "causes": "Three consecutive wrong PINs lock the CAC. Local middleware cannot unblock it.",
+    "fix": "1. On Mac, install the App Store 'Smart Card Utility' (10.14+ Intel or M1/M2). If your reader shows '(LOCKED)' the card is blocked.\n2. On Windows, ActivClient's User Console will show the card as blocked.\n3. Go in person to any RAPIDS / ID card office (find one at https://idco.dmdc.osd.mil/idco) to unblock or replace.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/cacenablers.htm",
+    "keywords": [
+      "blocked",
+      "locked",
+      "pin",
+      "id card office"
+    ]
+  },
+  {
+    "id": "avd-smart-card-not-passing-through",
+    "title": "CAC reader does not pass through to AVD on Mac",
+    "category": "general",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "CAC is read by the Mac but the AVD session never sees it; no certificate prompt inside the virtual desktop.",
+    "causes": "'Smart cards' device redirection is off in the workspace, or the reader is one of the models that does not redirect cleanly.",
+    "fix": "1. In Microsoft Remote Desktop, select the Army Desktop entry.\n2. Connections > Edit PC.\n3. Tick 'Use custom settings'.\n4. Devices & Audio tab > tick 'Smart cards'.\n5. Click Save, reopen the entry, uncheck Smart cards, save, then re-tick it and save again (this is a known toggle-to-bind workaround).\nIf still failing, swap to a reader other than Zoweetek ZW-12026-1, Rocketek, or the IOGEAR USB-C reader - those have been reported broken inside AVD.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/avd.htm",
+    "keywords": [
+      "avd",
+      "smart card",
+      "redirection",
+      "mac"
+    ]
+  },
+  {
+    "id": "ako-amid-cannot-login",
+    "title": "Cannot log into AMID with CAC",
+    "category": "general",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "AMID rejects the CAC login.",
+    "causes": "IE not configured for AMID.",
+    "fix": "Apply the IE configuration steps in the Making_AKO_work_with_Internet_Explorer PDF.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/ako.htm",
+    "keywords": [
+      "amid",
+      "ako",
+      "ie"
+    ]
+  },
+  {
+    "id": "coast-guard-horizon-old",
+    "title": "Coast Guard Horizon Client below v2006 blocked",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Coast Guard VDI rejects connection from old VMware Horizon clients.",
+    "causes": "As of September 2, 2021, USCG blocks Horizon Client versions earlier than 2006.",
+    "fix": "1. Update VMware Horizon Client to 2006 or newer.\n2. Reconnect to the USCG VDI.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/coastguard.htm",
+    "keywords": [
+      "coast guard",
+      "horizon",
+      "vdi",
+      "2006"
+    ]
+  },
+  {
+    "id": "dbsign-cert-invalid-code-112",
+    "title": "DBSign 'Certificate Invalid or Expired' (code 112) when logging into DTS",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "DTS login fails with DBSign error 112 'Certificate invalid or expired'.",
+    "causes": "DBSign cached an old certificate (common right after a new CAC was issued), or the CAC really has expired/been revoked.",
+    "fix": "1. Close the browser, eject the CAC, reinsert, and reopen DTS so the new cert is offered.\n2. If you have not done so recently, clear old certificates per the IE configuration guide (slide 14).\n3. If the CAC is past its expiry date, get a new one from an ID card office.\n4. Mac users: clear the keychain per militarycac.com/keychain.htm.",
+    "related_error_codes": [
+      "112"
+    ],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "dbsign",
+      "dts",
+      "112",
+      "certificate"
+    ]
+  },
+  {
+    "id": "dts-receive-user-locked",
+    "title": "DTS 'Account could not be found or is locked'",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Login is refused with an account-locked or not-found error after a PCS.",
+    "causes": "Account is suspended between losing and gaining units.",
+    "fix": "1. Contact the gaining unit's DTS POC.\n2. Have them 'Receive' you into the new unit in DTS.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "dts",
+      "receive",
+      "account locked",
+      "pcs"
+    ]
+  },
+  {
+    "id": "dts-overseas-page-cannot-be-displayed",
+    "title": "DTS 'Page Cannot be Displayed' overseas",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "DTS is unreachable from overseas networks.",
+    "causes": "Geo-blocking / network restrictions at the local ISP.",
+    "fix": "1. Use a VPN (see militarycac.com/vpn.htm) to a US endpoint.\n2. Or switch DNS to Quad9 / Cloudflare and retry (see DNS fix).",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/dts.htm",
+    "keywords": [
+      "dts",
+      "overseas",
+      "vpn"
+    ]
+  },
+  {
+    "id": "dts-popup-blocker-flash",
+    "title": "DTS screen flashes then disappears after login",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "DTS appears for a fraction of a second then closes.",
+    "causes": "A pop-up blocker is killing the DTS window.",
+    "fix": "1. Disable every pop-up blocker (browser extensions, toolbar pop-up blockers, antivirus pop-up blocking).\n2. Retry.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "dts",
+      "pop-up blocker"
+    ]
+  },
+  {
+    "id": "ees-direct-login-fails",
+    "title": "EES direct login at evaluations.hrc.army.mil fails",
+    "category": "general",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Cannot reach EES by going straight to https://evaluations.hrc.army.mil.",
+    "causes": "Session must be established through us.army.mil first.",
+    "fix": "1. Go to https://www.us.army.mil and authenticate with CAC.\n2. In a new tab, open https://evaluations.hrc.army.mil.\n3. EES should accept the session.\nHRC Help Desk: 502-613-7777.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/ees.htm",
+    "keywords": [
+      "ees",
+      "hrc",
+      "evaluation"
+    ]
+  },
+  {
+    "id": "dns-inet-e-resource-not-found",
+    "title": "INET_E_RESOURCE_NOT_FOUND or DoD sites suddenly unreachable",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "DoD pages that worked yesterday now fail with 'The DNS server might be having problems. Error Code: INET_E_RESOURCE_NOT_FOUND' or similar DNS errors. Happens often overseas and on some US ISPs.",
+    "causes": "Your ISP's DNS resolver is blocking, hijacking, or failing to resolve .mil hostnames.",
+    "fix": "Change your DNS to Quad9 or Cloudflare.\nWindows 11: System tray > right-click Wi-Fi/Ethernet > Network and Internet settings > active connection > Properties > scroll to 'DNS server assignment' > Edit > switch to Manual > toggle IPv4 on > preferred 9.9.9.9 (Quad9) or 1.1.1.1 (Cloudflare), alternate 149.112.112.112 or 1.0.0.1.\nWindows 10: System tray > right-click Wi-Fi/Ethernet > Open Network and Sharing Center > Change adapter settings > right-click connection > Properties > IPv4 > Properties > 'Use the following DNS server addresses'.\nMac: Apple > System Preferences > Network > select connection > Advanced > DNS tab > + > enter 9.9.9.9 or 1.1.1.1.\nWait ~5 minutes for the new DNS to take effect. If the ISP forces its own DNS at the router, change DNS on the router instead. A VPN (militarycac.com/vpn.htm) is a fallback.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/EEmail.htm",
+    "keywords": [
+      "dns",
+      "inet_e_resource_not_found",
+      "quad9",
+      "cloudflare",
+      "9.9.9.9",
+      "1.1.1.1"
+    ]
+  },
+  {
+    "id": "lenovo-superfish-blocks-cac",
+    "title": "Lenovo laptop's SUPERFISH adware blocks CAC",
+    "category": "general",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "CAC fails on a Lenovo laptop despite a correct install.",
+    "causes": "Pre-installed 'SUPERFISH INC VISUAL DISCOVERY' MITMs HTTPS, which breaks client-cert auth.",
+    "fix": "1. Control Panel > Programs and Features.\n2. Uninstall 'SUPERFISH INC VISUAL DISCOVERY'.\n3. Reboot.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "lenovo",
+      "superfish",
+      "adware"
+    ]
+  },
+  {
+    "id": "airforce-pin-prompt-twice",
+    "title": "Some Air Force sites prompt for PIN twice",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "PIN is requested before the cert picker appears.",
+    "causes": "Site-specific behavior - the first prompt is the wrong one.",
+    "fix": "1. Cancel the first PIN prompt.\n2. Select your certificate.\n3. Enter PIN on the second prompt.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/airforce.htm",
+    "keywords": [
+      "air force",
+      "pin prompt",
+      "twice"
+    ]
+  },
+  {
+    "id": "nipr-only-sites",
+    "title": "Specific Army apps suddenly only work from NIPRnet",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "ARAMP, AWCTS, ATRRS, GCSS-Army, JAGCNet, MedPros, MOBCOP, MyArmyBenefits, My ERB, RCMS, VIOS, US Army Signal Center, Strategic Management System, Health.mil webmail and others stopped loading from home.",
+    "causes": "Those apps were restricted to NIPRnet-only after migration.",
+    "fix": "1. Use a unit computer on the .mil network.\n2. Use a unit-issued Citrix/VPN client.\n3. For Health.mil webmail, install Citrix Workspace and use https://avhe.health.mil instead.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "niprnet",
+      "atrrs",
+      "gcss-army",
+      "vpn",
+      "citrix"
+    ]
+  },
+  {
+    "id": "avd-no-install-web-client",
+    "title": "Use Azure Virtual Desktop without installing the client",
+    "category": "general",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "symptoms": "You need AVD access but cannot or do not want to install the Windows/Mac Remote Desktop app.",
+    "causes": "Not a fault - Microsoft offers a browser-based AVD client.",
+    "fix": "1. Open Microsoft Edge.\n2. Go to https://client.wvd.azure.us/arm/webclient/index.html.\n3. Enter your full @army.mil address.\n4. Authenticate with CAC.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/avd.htm",
+    "keywords": [
+      "avd",
+      "web client",
+      "browser"
+    ]
+  },
+  {
+    "id": "iphone-tap-and-go-pkard",
+    "title": "Decide which mobile reader/app combination to use",
+    "category": "ios",
+    "platforms": [
+      "ios"
+    ],
+    "symptoms": "User unsure whether to buy TwoCanoes/PKard or Identiv iAuthenticate.",
+    "causes": "Information gap, not a defect.",
+    "fix": "Both reader + matching app combinations work:\n1. TwoCanoes / Thursby PKard reader plus the TwoCanoes Smart Card Utility app.\n2. Identiv iAuthenticate 2.0 reader plus the iAuthenticate 2.0 app.\nFollow each vendor's DoD/Government install profile after pairing.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/mobile.htm",
+    "keywords": [
+      "iphone",
+      "ipad",
+      "pkard",
+      "iauthenticate",
+      "thursby"
+    ]
+  },
+  {
+    "id": "purchase-thursby-iauthenticate-iphone",
+    "title": "Getting CAC working on iPhone/iPad",
+    "category": "ios",
+    "platforms": [
+      "ios"
+    ],
+    "symptoms": "Need to access a CAC site from an iPhone or iPad and the cert picker never appears.",
+    "causes": "iOS does not include CAC middleware. A vendor reader + app must be installed.",
+    "fix": "1. Buy a compatible reader (TwoCanoes or Identiv iAuthenticate 2.0).\n2. Install the matching app (Smart Card Utility from TwoCanoes, or iAuthenticate 2.0).\n3. In Safari on the device, go to the TwoCanoes site > Resources > 'US Government/DoD Installation Instructions'.\n4. Download and install the DoD certificate profile in Settings > General > VPN & Device Management when prompted.\n5. Pair the reader via USB-C, Lightning, or Bluetooth.\n6. Open the app and confirm the CAC is read before browsing to a CAC site.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/mobile.htm",
+    "keywords": [
+      "iphone",
+      "ipad",
+      "thursby",
+      "twocanoes",
+      "iauthenticate"
+    ]
+  },
+  {
+    "id": "iphone-kyle-gorak-known-broken",
+    "title": "Kyle Gorak alternate iOS method does not work",
+    "category": "ios",
+    "platforms": [
+      "ios"
+    ],
+    "symptoms": "Trying to use the kyle.gorak.us iOS CAC method fails.",
+    "causes": "Method is unsupported; the site author tested it and could not get it working.",
+    "fix": "1. Stop trying that approach.\n2. Use TwoCanoes or Identiv reader+app instead.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/mobile.htm",
+    "keywords": [
+      "kyle gorak",
+      "iphone",
+      "alternate"
+    ]
+  },
+  {
+    "id": "purchase-usb-c-adapter-ipad-pro",
+    "title": "Standard Lightning CAC reader does not work on iPad Pro (USB-C)",
+    "category": "ios",
+    "platforms": [
+      "ios"
+    ],
+    "symptoms": "Lightning-only reader will not attach to a USB-C iPad Pro.",
+    "causes": "Physical connector mismatch.",
+    "fix": "1. Buy a Lightning-to-USB-C adapter (Thursby sells one).\n2. Plug the reader into the adapter, the adapter into the iPad Pro.\n3. Proceed with the standard reader/app setup.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/mobile.htm",
+    "keywords": [
+      "ipad pro",
+      "usb-c",
+      "lightning",
+      "adapter"
+    ]
+  },
+  {
+    "id": "linux-cackey-slow",
+    "title": "CACkey on Linux is slow / browser hangs during auth",
+    "category": "linux",
+    "platforms": [
+      "linux"
+    ],
+    "symptoms": "Authentication takes 10-15+ seconds or times out with CACkey.",
+    "causes": "Older CACkey builds had performance regressions.",
+    "fix": "1. Update CACkey from http://cackey.rkeene.org/fossil/wiki?name=Downloads.\n2. Uninstall the old version first.\n3. If it is still slow, switch to OpenSC, which is generally faster.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/linux.htm",
+    "keywords": [
+      "linux",
+      "cackey",
+      "slow"
+    ]
+  },
+  {
+    "id": "linux-chromium-needs-modutil",
+    "title": "Chrome/Chromium on Linux cannot see the CAC",
+    "category": "linux",
+    "platforms": [
+      "linux"
+    ],
+    "symptoms": "Firefox works after loading the PKCS#11 module but Chrome still does not prompt for a certificate.",
+    "causes": "Chrome uses the per-user NSS database (~/.pki/nssdb); the module must be registered there too.",
+    "fix": "1. sudo apt-get install libnss3-tools (Debian/Ubuntu) or distro equivalent.\n2. In a terminal in your home directory: modutil -dbdir sql:.pki/nssdb/ -add \"CAC Module\" -libfile /usr/lib64/libcoolkeypk11.so (use /usr/lib for 32-bit).\n3. Verify: modutil -dbdir sql:.pki/nssdb/ -list. Should list 'CAC Module'.\n4. If you get 'SEC_ERROR_BAD_DATABASE', you ran the command from outside your home directory - cd ~ and rerun.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/linux.htm",
+    "keywords": [
+      "linux",
+      "chrome",
+      "chromium",
+      "nss",
+      "modutil"
+    ]
+  },
+  {
+    "id": "linux-coolkey-no-piv",
+    "title": "CoolKey cannot reach the PIV / Email cert (Dual Persona)",
+    "category": "linux",
+    "platforms": [
+      "linux"
+    ],
+    "symptoms": "Enterprise Email refuses to authenticate; only the legacy ID cert is visible.",
+    "causes": "CoolKey does not support PIV containers for Dual Persona cards.",
+    "fix": "1. Replace CoolKey with OpenSC (preferred) or the latest CACkey from cackey.rkeene.org.\n2. Unload CoolKey from Firefox Security Devices.\n3. Load the new module instead.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/linux.htm",
+    "keywords": [
+      "coolkey",
+      "piv",
+      "dual persona",
+      "opensc"
+    ]
+  },
+  {
+    "id": "dbsign-config-wrong-pkcs11",
+    "title": "DBSign uses the wrong PKCS#11 module on Linux after switching middleware",
+    "category": "linux",
+    "platforms": [
+      "linux"
+    ],
+    "symptoms": "After switching from CACkey to CoolKey (or vice versa), DTS / DBSign refuses to authenticate.",
+    "causes": "DBSign.cfg still points at the previous library path.",
+    "fix": "1. Open $HOME/.DBsign/UWC/DBsign.cfg in a text editor.\n2. Find: <para name=\"pkcs11_library\">/usr/lib64/libcackey.so</param>\n3. Replace with the correct module/path for your system:\n   - 64-bit CoolKey: /usr/lib64/libcoolkeypk11.so\n   - 32-bit CoolKey: /usr/lib/libcoolkeypk11.so\n4. Save and relaunch DTS.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/linux.htm",
+    "keywords": [
+      "dbsign",
+      "pkcs11",
+      "linux",
+      "cackey",
+      "coolkey"
+    ]
+  },
+  {
+    "id": "dts-cannot-launch-java-linux",
+    "title": "DTS will not launch on Linux",
+    "category": "linux",
+    "platforms": [
+      "linux"
+    ],
+    "symptoms": "DTS website opens but the application never starts; Java errors may appear.",
+    "causes": "DTS no longer needs Java but parts of the page still expect a working JRE, and many distros now ship without one.",
+    "fix": "1. Install a Java runtime:\n   - Ubuntu/Debian/Mint: sudo apt-get install default-jre\n   - Fedora: sudo dnf install java-latest-openjdk\n   - openSUSE: follow https://en.opensuse.org/sdb:installing_java\n2. Restart Firefox.\n3. Retry http://www.defensetravel.osd.mil.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/linux.htm",
+    "keywords": [
+      "dts",
+      "linux",
+      "java",
+      "icedtea"
+    ]
+  },
+  {
+    "id": "linux-ubuntu-16-modutil-path",
+    "title": "modutil fails on Ubuntu 16.04+ with a path error",
+    "category": "linux",
+    "platforms": [
+      "linux"
+    ],
+    "symptoms": "Chrome CAC setup fails because /usr/lib64 does not exist or the module is in a multi-arch directory.",
+    "causes": "Ubuntu uses Debian multi-arch paths like /usr/lib/x86_64-linux-gnu.",
+    "fix": "1. Find the actual library path: find /usr -name \"libcoolkeypk11.so\" 2>/dev/null\n2. Use the returned path: modutil -dbdir sql:.pki/nssdb/ -add \"CAC Module\" -libfile /usr/lib/x86_64-linux-gnu/libcoolkeypk11.so\n3. Verify with modutil -dbdir sql:.pki/nssdb/ -list.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/linux.htm",
+    "keywords": [
+      "ubuntu",
+      "modutil",
+      "multi-arch",
+      "path"
+    ]
+  },
+  {
+    "id": "linux-pcsc-not-running",
+    "title": "pcsc_scan hangs at 'Waiting for the first reader'",
+    "category": "linux",
+    "platforms": [
+      "linux"
+    ],
+    "symptoms": "pcsc_scan shows no reader; nothing happens when inserting/removing the CAC.",
+    "causes": "pcscd is not running, or the right CCID driver package is not installed.",
+    "fix": "1. Install pcsc-lite and pcsc-ccid (apt, dnf, or zypper depending on distro).\n2. Start the daemon: sudo systemctl restart pcscd.\n3. Enable autostart: sudo systemctl enable pcscd.\n4. Run pcsc_scan to confirm the reader appears.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/linux.htm",
+    "keywords": [
+      "pcscd",
+      "pcsc_scan",
+      "linux"
+    ]
+  },
+  {
+    "id": "firefox-cackey-vs-coolkey-switch",
+    "title": "Switching between CACkey and CoolKey on Firefox/Chrome",
+    "category": "linux",
+    "platforms": [
+      "linux"
+    ],
+    "symptoms": "After installing a new middleware, the old module is still active and the browser uses the wrong one.",
+    "causes": "The previous module is still registered in Firefox Security Devices or in the NSS database.",
+    "fix": "1. Firefox > Preferences > Privacy & Security > Security Devices > select old module > Unload.\n2. For Chrome/Chromium (NSS): modutil -dbdir sql:.pki/nssdb/ -delete \"CAC Module\".\n3. Load the new module - in Firefox via Security Devices > Load; in Chrome via modutil -dbdir sql:.pki/nssdb/ -add \"CAC Module\" -libfile <path>.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/linux.htm",
+    "keywords": [
+      "cackey",
+      "coolkey",
+      "nss",
+      "modutil"
+    ]
+  },
+  {
+    "id": "mac-activclient-1015-7-broken",
+    "title": "ActivClient is broken on macOS 10.15.7",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "ActivClient on macOS Catalina 10.15.7 will not authenticate.",
+    "causes": "Specific incompatibility with the 10.15.7 release.",
+    "fix": "1. Either roll back to 10.15.5 or earlier, or upgrade to Big Sur or newer.\n2. Uninstall ActivClient.\n3. Use the native pivtoken approach instead.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/cacenablers.htm",
+    "keywords": [
+      "activclient",
+      "catalina",
+      "10.15.7"
+    ]
+  },
+  {
+    "id": "smart-card-pairing-block-mac",
+    "title": "Avoid pairing the CAC to your Mac login (prevents lockout)",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "macOS prompts to 'pair' the CAC to your account. If you pair and then fail PIN attempts, the CAC gets blocked.",
+    "causes": "macOS smart card pairing counts wrong PINs against the card's PIN counter.",
+    "fix": "Avoid pairing entirely - choose Cancel at the pairing prompt.\nIf you already paired and want to unpair:\n1. Pull the CAC.\n2. Terminal: sc_auth list.\n3. Copy the 40-character hash.\n4. Terminal: sc_auth unpair -h <hash>.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/macuninstall.htm",
+    "keywords": [
+      "sc_auth",
+      "pair",
+      "unpair",
+      "mac",
+      "lockout"
+    ]
+  },
+  {
+    "id": "cackey-keychain-password-prompt",
+    "title": "CACKey on Mac asks for 'keychain password' and you do not know what to enter",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "After picking a certificate, a 'keychain password' dialog appears.",
+    "causes": "CACKey labels its PIN prompt 'keychain password' even though it wants the CAC PIN.",
+    "fix": "1. Enter your 6-8 digit CAC PIN.\n2. Do NOT enter your macOS user password.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/cacenablers.htm",
+    "keywords": [
+      "cackey",
+      "keychain password",
+      "pin",
+      "mac"
+    ]
+  },
+  {
+    "id": "mac-cisco-anyconnect-umbrella",
+    "title": "Cisco AnyConnect 'Umbrella Plugin' blocks CAC on Mac",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "CAC works until Cisco AnyConnect is launched.",
+    "causes": "Cisco Umbrella module intercepts TLS.",
+    "fix": "1. Uninstall the Cisco Umbrella plugin (keep AnyConnect itself).\n2. Reboot.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/MacQuestions.htm",
+    "keywords": [
+      "cisco",
+      "umbrella",
+      "anyconnect",
+      "mac"
+    ]
+  },
+  {
+    "id": "dts-mac-blank-vouchers",
+    "title": "DTS on Mac shows a blank page on Authorizations or Vouchers",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "After clicking into an Authorization or Voucher in DTS, Safari renders a blank page.",
+    "causes": "Safari's pop-up blocker kills the DTS pop-up window.",
+    "fix": "1. Safari > Settings (Preferences) > Websites > Pop-up Windows.\n2. For defensetravel.osd.mil set Allow.\n3. Or temporarily uncheck 'Block Pop-Up Windows' under Security.\n4. Reload the voucher.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "dts",
+      "mac",
+      "safari",
+      "pop-up",
+      "voucher"
+    ]
+  },
+  {
+    "id": "error-100001-mac-keychain",
+    "title": "Error 100001 installing DoD certs on Mac",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Adding a DoD cert to the keychain fails with 100001.",
+    "causes": "Corrupted login keychain.",
+    "fix": "1. Run Disk Utility > First Aid.\n2. Finder > Go > hold Option > select Library > drag Keychains folder to the desktop.\n3. Restart the Mac and re-enter your Apple ID / passwords when prompted.\n4. Reinstall the DoD certs.\n5. Once everything works, move the desktop Keychains folder to the Trash.",
+    "related_error_codes": [
+      "100001"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "100001",
+      "mac",
+      "keychain",
+      "first aid"
+    ]
+  },
+  {
+    "id": "error-12221-mac",
+    "title": "Error 12221 on Mac when accessing webmail",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Mac webmail throws 12221.",
+    "causes": "Cached keychain credentials for mail.mil are stale.",
+    "fix": "1. Open Keychain Access > login > All Items.\n2. Search for 'mail.mil' and delete every entry that appears.\n3. Restart Safari and retry.",
+    "related_error_codes": [
+      "12221"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "12221",
+      "keychain",
+      "mac"
+    ]
+  },
+  {
+    "id": "mac-firefox-newer-than-1012",
+    "title": "Firefox on macOS 10.12+ does not authenticate with CAC",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "After installing certs and enabling native smart card, Firefox still fails to authenticate.",
+    "causes": "Firefox does not consume the CryptoTokenKit pivtoken; it needs a third-party PKCS#11 module.",
+    "fix": "1. Install CACKey from militarycac.com/cacenablers.htm.\n2. In Firefox, Preferences > Privacy & Security > Security Devices > Load > point at the CACKey module.\n3. Restart Firefox.\n4. If Firefox is still broken, use Safari or Chrome - they use the native token.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/macnotes.htm",
+    "keywords": [
+      "firefox",
+      "mac",
+      "sierra",
+      "cackey"
+    ]
+  },
+  {
+    "id": "mac-firefox-semi-automated-cert-install",
+    "title": "Installing DoD certs into Firefox on Mac",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Firefox on Mac will not present a CAC cert because the DoD certs are not in Firefox's own NSS store.",
+    "causes": "Firefox keeps its own cert DB separate from the system keychain.",
+    "fix": "Semi-automated:\n1. Download AllCerts.zip from militarycac.com and unzip it.\n2. Select all certs in the folder.\n3. Control-click > Open With > Other > set Enable to All Applications > pick Firefox.\n4. Firefox opens a tab per cert; tick all three trust boxes on each.\nManual:\n1. Firefox > Preferences > Advanced > Certificates > View Certificates > Authorities > Import.\n2. Add each cert in turn.\nAfter installing all certs: Firefox > Preferences > Advanced > Network > Cached Web Content > Clear Now; quit and reopen Firefox.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/macnotes.htm",
+    "keywords": [
+      "firefox",
+      "mac",
+      "import",
+      "allcerts"
+    ]
+  },
+  {
+    "id": "mac-smc-reset-bigsur",
+    "title": "Mac admin password rejected and CAC stopped working after Big Sur upgrade",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "After upgrading to Big Sur, the Mac no longer accepts the admin password and the CAC stopped working.",
+    "causes": "T2 Security Chip state is stuck and needs an SMC reset.",
+    "fix": "1. Verify the Mac has the T2 chip (support.apple.com/en-us/HT208862).\n2. Shut the Mac all the way down.\n3. Hold the power button for 10 seconds.\n4. Release and power on normally - the SMC has been reset.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/MacQuestions.htm",
+    "keywords": [
+      "t2",
+      "smc",
+      "big sur",
+      "mac"
+    ]
+  },
+  {
+    "id": "mac-smart-card-reset-script",
+    "title": "Mac certs disappear from CAC until reboot",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "CAC works at first, but eventually macOS stops seeing the certs until you reboot.",
+    "causes": "Smart card reader connection state gets stuck.",
+    "fix": "Use the smart-card reset script at https://github.com/notjames/jimconn-shell/blob/master/bin/reset-smartcard. Run it when the certs disappear instead of rebooting.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/MacQuestions.htm",
+    "keywords": [
+      "mac",
+      "reset smartcard",
+      "script",
+      "github"
+    ]
+  },
+  {
+    "id": "mac-clear-identity-preferences",
+    "title": "Mac suddenly stopped letting you into a CAC site you used yesterday",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "A previously-working CAC site is suddenly unreachable on the Mac with no obvious change.",
+    "causes": "Stale Identity Preference entry in the login keychain is binding the site to a cert that is no longer valid.",
+    "fix": "1. Spotlight > Keychain Access.\n2. Select 'login' under Keychains and 'All Items' under Category.\n3. Click the Kind column to sort and scroll to 'Identity preference' entries.\n4. Select the entries for the failing site and delete them.\n5. Eject the CAC.\n6. Safari > Clear History > all history.\n7. Safari > Settings > Privacy > Manage Website Data > search the host (e.g. mail.mil) > Remove.\n8. Reinsert CAC and retry.\nOn Big Sur / Catalina / Mojave check the 'Certificates' category instead of 'Identity preference'.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/keychain.htm",
+    "keywords": [
+      "mac",
+      "identity preference",
+      "keychain",
+      "site stopped working"
+    ]
+  },
+  {
+    "id": "navy-mac-trusted-certs",
+    "title": "Navy CAC sites refuse Mac connections",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Navy CAC sites fail on Mac with cert-trust errors.",
+    "causes": "Site-specific intermediate certificates are not in the Mac keychain.",
+    "fix": "1. Download the site-specific certs from https://militarycac.com/trustedcerts/.\n2. Open Keychain Access and import each cert.\n3. Set Trust to 'Always Trust'.\n4. Use Safari.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/Navy.htm",
+    "keywords": [
+      "navy",
+      "mac",
+      "trusted certs"
+    ]
+  },
+  {
+    "id": "mac-nordvpn-web-protection",
+    "title": "NordVPN Threat Protection > Web Protection breaks CAC on Mac",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "CAC works with NordVPN disconnected but fails when NordVPN's Web Protection is on.",
+    "causes": "Web Protection performs HTTPS interception.",
+    "fix": "1. Open NordVPN.\n2. Threat Protection section.\n3. Untick Web Protection.\n4. Confirm subscription is valid.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/MacQuestions.htm",
+    "keywords": [
+      "nordvpn",
+      "web protection",
+      "mac"
+    ]
+  },
+  {
+    "id": "airforce-safari-owa-crash",
+    "title": "Safari crashes shortly after opening AF OWA",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Safari quits 10-20 seconds into AF OWA, although other CAC sites work.",
+    "causes": "OWA calendar reminder pop-up triggers a Safari crash.",
+    "fix": "1. In Safari, open the OWA options.\n2. Accessibility > tick 'Use the blind and low vision experience'.\n3. Reload OWA (the UI will look basic but it will not crash).",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/airforce.htm",
+    "keywords": [
+      "air force",
+      "safari",
+      "owa",
+      "crash"
+    ]
+  },
+  {
+    "id": "mac-3rd-party-enabler-catalina-bigsur",
+    "title": "Third-party CAC enablers break Mac OS Catalina / Big Sur and newer",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Cannot use CAC after upgrading to macOS 10.15 or later.",
+    "causes": "Third-party enablers (PKard, CACKey, Centrify, CSSI, OpenSC) collide with the native CryptoTokenKit pivtoken.",
+    "fix": "1. Uninstall every third-party enabler per militarycac.com/macuninstall.htm.\n2. Re-enable the native pivtoken: sudo defaults write /Library/Preferences/com.apple.security.smartcard DisabledTokens -array && sudo defaults write /Library/Preferences/com.apple.security.smartcard EnabledTokens -array com.apple.CryptoTokenKit.pivtoken (run twice).\n3. Reboot.\n4. When prompted to pair the CAC, cancel - pairing increases lockout risk.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/macuninstall.htm",
+    "keywords": [
+      "catalina",
+      "big sur",
+      "pivtoken",
+      "uninstall",
+      "enabler"
+    ]
+  },
+  {
+    "id": "cac-not-read-mac-system-report",
+    "title": "Verify whether the Mac is actually reading the CAC",
+    "category": "macos",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Unsure whether the failure is at the reader, the card, or the browser.",
+    "causes": "Diagnostic check, not a defect.",
+    "fix": "1. Click Apple > About This Mac > System Report.\n2. In the left column, scroll to Software > SmartCards.\n3. If hundreds of lines of token info appear, the card IS being read - the problem is downstream (certs, browser, keychain).\n4. If you only see ~15 lines, the card is NOT being read - check the reader on militarycac.com/usbreaders.htm, verify the card type, swap USB ports, and restart.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/macnotes.htm",
+    "keywords": [
+      "mac",
+      "system report",
+      "smartcards",
+      "diagnostic"
+    ]
+  },
+  {
+    "id": "piv-activation-fails-mac-linux-chrome",
+    "title": "Cannot activate PIV on Mac, Linux, or Chrome",
+    "category": "piv",
+    "platforms": [
+      "macos",
+      "linux"
+    ],
+    "symptoms": "The DMDC self-service PIV activation fails on macOS, Linux, or in Chrome.",
+    "causes": "The PIV activation flow requires the legacy ActiveX/Java pieces that only work in Windows IE.",
+    "fix": "1. Find a Windows 10 or 11 computer (your unit help desk has one).\n2. Use 32-bit or 64-bit Internet Explorer (Edge will not work).\n3. Install ActivID 7.1.0.153 and the matching bitness of Java.\n4. Add https://pki.dmdc.osd.mil, https://www.dmdc.osd.mil, and https://idco.dmdc.osd.mil to Control Panel > Java > Security > Edit Site List.\n5. Go to https://www.dmdc.osd.mil/self_service and complete activation.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/PIV.htm",
+    "keywords": [
+      "piv",
+      "mac",
+      "linux",
+      "chrome",
+      "dmdc"
+    ]
+  },
+  {
+    "id": "piv-error-5011-prefer-gsc-is",
+    "title": "Error 5011 'ActivClient configured to use the PIV EndPoint interface'",
+    "category": "piv",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Error 5011 during PIV activation.",
+    "causes": "ActivClient is set to PIV EndPoint instead of GSC-IS.",
+    "fix": "1. Open ActivClient > Tools > Advanced > Configuration.\n2. Change 'Prefer GSC-IS over PIV EndPoint' from No to Yes.\n3. Reboot.\n4. Retry activation.",
+    "related_error_codes": [
+      "5011"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "5011",
+      "gsc-is",
+      "piv endpoint"
+    ]
+  },
+  {
+    "id": "piv-pcc-on-army-cac",
+    "title": "PCC added to UPN makes the cert useless for Army personnel",
+    "category": "piv",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "After completing the PIV activation, the cert displays a '.letter' suffix after the DoD ID and Army systems reject it.",
+    "causes": "PCC was added to the UPN by mistake on the DMDC self-service site.",
+    "fix": "1. Follow the Dual-CAC-Issues.pdf walkthrough.\n2. Remove the PCC from the UPN of the Army CAC at https://www.dmdc.osd.mil/self_service.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/PIV.htm",
+    "keywords": [
+      "pcc",
+      "upn",
+      "piv",
+      "army"
+    ]
+  },
+  {
+    "id": "piv-built-in-smart-card-fails",
+    "title": "PIV activation fails when using the Windows built-in smart card utility",
+    "category": "piv",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "PIV activation breaks at the DMDC site without ActivClient.",
+    "causes": "Windows' native smart card layer does not implement everything DMDC's flow needs.",
+    "fix": "1. Install ActivID 7.1.0.153.\n2. Reboot.\n3. Retry https://www.dmdc.osd.mil/self_service.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/PIV.htm",
+    "keywords": [
+      "piv",
+      "windows",
+      "activclient"
+    ]
+  },
+  {
+    "id": "piv-error-4012-cac-not-found",
+    "title": "PIV Error 4012 'CAC NOT Found in Reader'",
+    "category": "piv",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "PIV activation throws Error 4012.",
+    "causes": "Card not inserted or not detected when the activation step runs.",
+    "fix": "1. Insert the CAC and try again.\n2. If still failing, follow the PIV activation steps with ActivClient instead of the built-in utility.",
+    "related_error_codes": [
+      "4012"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "4012",
+      "piv",
+      "cac not found"
+    ]
+  },
+  {
+    "id": "piv-error-4015-timeout",
+    "title": "PIV Error 4015 'Time Out'",
+    "category": "piv",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "PIV activation times out (Error 4015, 4017, 4019, 4022, 4023, 4024).",
+    "causes": "DMDC site issue or transient server problem.",
+    "fix": "1. Wait and try again later.\n2. Follow the PIV activation guide with ActivClient.\n3. For 4023 (reading data from CAC), also reseat the card.",
+    "related_error_codes": [
+      "4015",
+      "4017",
+      "4019",
+      "4022",
+      "4023",
+      "4024"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "4015",
+      "4017",
+      "4019",
+      "piv",
+      "timeout"
+    ]
+  },
+  {
+    "id": "piv-error-4020-middleware",
+    "title": "PIV Error 4020 'Middleware is either improperly installed or not installed at all'",
+    "category": "piv",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Error 4020 at PIV activation.",
+    "causes": "ActivClient is missing or too old.",
+    "fix": "1. Install the latest ActivClient (ActivID 7.1.0.153 or 7.4).\n2. Reboot.\n3. Retry PIV activation.",
+    "related_error_codes": [
+      "4020"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "4020",
+      "piv",
+      "activclient",
+      "middleware"
+    ]
+  },
+  {
+    "id": "piv-error-4027-4028-4034",
+    "title": "PIV Errors 4027 / 4028 / 4034 from the LCM portal",
+    "category": "piv",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Activation returns 4027, 4028, or 4034 from the LCM user portal.",
+    "causes": "DMDC server load or backend error.",
+    "fix": "1. Wait and retry later.\n2. For persistent 4028, call 800-477-8227 (24/7).",
+    "related_error_codes": [
+      "4027",
+      "4028",
+      "4034"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "4027",
+      "4028",
+      "4034",
+      "lcm"
+    ]
+  },
+  {
+    "id": "piv-select-piv-not-email",
+    "title": "When prompted, pick the PIV / Authentication cert, not the EMAIL cert",
+    "category": "piv",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Login fails or redirects strangely because you keep picking the wrong certificate type.",
+    "causes": "Most current DoD sites authenticate with the PIV (Authentication) cert, not the EMAIL cert.",
+    "fix": "1. In the certificate picker, pick the certificate WITHOUT the word 'EMAIL' in its name.\n2. On Windows 10, click 'More choices' to expand the list if needed.\n3. On Windows 11, look for the entry whose details say 'Smart Card Logon'.\n4. The correct cert's NT Principal Name shows your 10-digit DoD ID followed by 6 more digits.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/PIV.htm",
+    "keywords": [
+      "piv",
+      "authentication",
+      "email cert",
+      "more choices"
+    ]
+  },
+  {
+    "id": "reader-only-built-in-651",
+    "title": "'Smart card no more available' with ActivClient 6.1 + built-in reader",
+    "category": "reader",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Computers with a built-in CAC reader (some Gateway, some HP laptops) plus an external reader throw 'smart card no more available' on AC 6.1.",
+    "causes": "ActivClient 6.1 cannot juggle the built-in reader plus an external reader.",
+    "fix": "1. Upgrade to ActivClient 6.2 or newer.\n2. If you must stay on 6.1, unplug the external reader and use the built-in slot only.\n3. On certain Gateway laptops the card must be inserted upside down.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "activclient 6.1",
+      "built-in reader",
+      "external reader"
+    ]
+  },
+  {
+    "id": "usbreader-acr39-win10",
+    "title": "ACR39U does not read newer CACs on Windows 10",
+    "category": "reader",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "ACR39U does not read G+D FIPS 201 SCE 7.0 or Gemalto DLGX4 128Kv2 on Windows 10.",
+    "causes": "Firmware/driver limitation.",
+    "fix": "1. Replace with a supported reader.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/usbreaders.htm",
+    "keywords": [
+      "acr39",
+      "windows 10"
+    ]
+  },
+  {
+    "id": "cac-reader-driver-not-installed",
+    "title": "CAC reader does not appear under Smart card readers in Device Manager",
+    "category": "reader",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Reader is plugged in but missing entirely from Device Manager, or shows as an unknown device.",
+    "causes": "Windows did not auto-install a driver - common with older SCR-331 / SCR-3310 v1 units.",
+    "fix": "1. Right-click the Windows logo > Device Manager.\n2. Find the reader under Smart card readers or under Other devices / Unknown devices.\n3. Right-click it > Uninstall device.\n4. Unplug the reader, wait 10 seconds, plug it back in - Windows should re-detect.\n5. If it still fails, download the model-specific driver from militarycac.com/usbreaders.htm (or keyboards.htm / desktopreaders.htm).\n6. Extract the zip.\n7. In Device Manager, right-click the reader > Update driver > Browse my computer > point to the extracted folder.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/cacdrivers.htm",
+    "keywords": [
+      "reader",
+      "driver",
+      "device manager",
+      "unknown device"
+    ]
+  },
+  {
+    "id": "usbreader-cloud-2700r-mac13",
+    "title": "Cloud 2700R reader does not work on macOS 13 Ventura or Windows 8.1",
+    "category": "reader",
+    "platforms": [
+      "macos",
+      "windows"
+    ],
+    "symptoms": "Cloud 2700R is unsupported on these OS versions.",
+    "causes": "Manufacturer does not ship drivers for those builds.",
+    "fix": "1. Replace with a currently-supported reader from militarycac.com/usbreaders.htm.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/usbreaders.htm",
+    "keywords": [
+      "cloud 2700r",
+      "ventura",
+      "windows 8.1"
+    ]
+  },
+  {
+    "id": "io-gear-old-gsr202",
+    "title": "IO Gear GSR-202 / 202V / 203 cannot read newer CACs (Mac)",
+    "category": "reader",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Older IO Gear reader fails to read G+D FIPS 201 SCE 7.0 or Gemalto DLGX4 128Kv2 CACs.",
+    "causes": "Pre-May 2019 IO Gear units have firmware that does not support the newer card chips.",
+    "fix": "1. Read the reader serial number. Format OU95USC6201609 or newer = post-May 2019, supported.\n2. If older, contact IO Gear about a warranty replacement, otherwise buy a newer compatible reader from militarycac.com/usbreaders.htm.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/usbreaders.htm",
+    "keywords": [
+      "iogear",
+      "gsr-202",
+      "mac",
+      "old reader"
+    ]
+  },
+  {
+    "id": "usbreader-omnikey-3121-mac",
+    "title": "Omnikey 3121/3021 only needs a Mac driver on 10.8 or older",
+    "category": "reader",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "Unsure whether to install an Omnikey driver on modern macOS.",
+    "causes": "macOS 10.9+ includes the driver natively.",
+    "fix": "1. On macOS 10.9+ no driver download is needed.\n2. On macOS 10.8 or older, download the Omnikey driver from the manufacturer.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/usbreaders.htm",
+    "keywords": [
+      "omnikey",
+      "3121",
+      "3021",
+      "mac"
+    ]
+  },
+  {
+    "id": "reader-beep-on-startup",
+    "title": "Reader makes an annoying beep when Windows starts",
+    "category": "reader",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "On boot or login, the system plays a beep tied to the empty CAC reader.",
+    "causes": "ActivClient's NoReaderWarning is enabled.",
+    "fix": "1. Win+R > regedit.\n2. Go to HKEY_LOCAL_MACHINE\\Software\\ActivCard\\ActiveClient\\Notification\\NoReaderWarning.\n3. Set 'Enable' from 1 to 0.\n4. Reboot.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "beep",
+      "noreaderwarning",
+      "activclient",
+      "registry"
+    ]
+  },
+  {
+    "id": "cac-reads-intermittently",
+    "title": "Reader reads the CAC intermittently",
+    "category": "reader",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "symptoms": "CAC works sometimes; other times the system fails to detect the card or drops it mid-session.",
+    "causes": "Dirty gold contacts on the CAC, a worn-out card, or a worn-out reader.",
+    "fix": "1. Wipe the gold chip with a clean pencil eraser to remove oxidation.\n2. Try a known-good reader on the same machine - if it works, replace the original reader.\n3. If a second reader also fails, the card itself is worn out - get it replaced at an ID card office.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "intermittent",
+      "gold chip",
+      "eraser",
+      "worn reader"
+    ]
+  },
+  {
+    "id": "usbreader-rocketek-opluz-incompat",
+    "title": "Rocketek RT-SCR10 / Opluz OPM610 do not read CACs",
+    "category": "reader",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "Rocketek RT-SCR10 or Opluz OPM610 are detected as readers but do not read a CAC.",
+    "causes": "Both have firmware that does not implement the right CCID profile for CACs.",
+    "fix": "1. Return the reader.\n2. Buy a supported model from militarycac.com/usbreaders.htm.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/usbreaders.htm",
+    "keywords": [
+      "rocketek",
+      "opluz",
+      "incompatible reader"
+    ]
+  },
+  {
+    "id": "reader-scr-331-firmware",
+    "title": "SCR-331 firmware below 5.25 cannot read newer CACs",
+    "category": "reader",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "SCR-331 fails on Gemalto TOP DL GX4 or Oberthur 5.5 Dual cards, or shows up as 'STCII Smart Card Reader' or 'USB Smart Card Reader'.",
+    "causes": "Firmware below 5.25 lacks support for newer card chips.",
+    "fix": "1. Device Manager > Smart card readers > right-click 'SCRx31 USB Reader' > Properties > Details > Hardware Ids. If &REV_ shows 0525, you are current - stop.\n2. Otherwise download SCR331_non-ccid_to_ccid_update.zip from militarycac.com.\n3. Unzip; update the driver from the 'driver' folder.\n4. Run FWUPDATE.EXE from the 'app' folder, accept defaults.\n5. Reboot.\nNote: firmware updates only run on real Windows (or Boot Camp), not in virtual machines.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/cacdrivers.htm",
+    "keywords": [
+      "scr-331",
+      "firmware",
+      "5.25",
+      "stcii"
+    ]
+  },
+  {
+    "id": "reader-scr-3310-v1-firmware",
+    "title": "SCR-3310 v1 firmware below 5.26 fails on Win 10/11 or Mac",
+    "category": "reader",
+    "platforms": [
+      "windows",
+      "macos"
+    ],
+    "symptoms": "SCR-3310 v1 stops working on newer Windows or Mac.",
+    "causes": "Firmware below 5.26.",
+    "fix": "1. Confirm the unit is v1 (no 'V2' label).\n2. Download SCR3310_fw5.26Ver1OnlyFWUPdate.zip from militarycac.com.\n3. Run FWUpdate.exe on a real Windows machine or under Boot Camp (NOT in a VM).\n4. Do not run this on a v2 unit - it is already past 5.26.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/cacdrivers.htm",
+    "keywords": [
+      "scr-3310",
+      "firmware",
+      "5.26"
+    ]
+  },
+  {
+    "id": "mac-iogear-scr-3310-firmware",
+    "title": "SCR-3310 v2.0 reader cannot read modern CACs on macOS 10.15.7+",
+    "category": "reader",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "SCR-3310 v2.0 is detected but cannot read G+D FIPS 201 SCE 7.0 or Gemalto DLGX4 128Kv2 CACs.",
+    "causes": "Firmware below 6.02; HID does not ship a Mac-runnable update for older units.",
+    "fix": "1. About This Mac > System Report > Hardware > USB > locate SCR3310 v2.0.\n2. Check the Version field. If below 6.02, you must replace the reader - get one from militarycac.com/usbreaders.htm.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/macnotes.htm",
+    "keywords": [
+      "scr-3310",
+      "firmware",
+      "mac"
+    ]
+  },
+  {
+    "id": "mac-scr-3500a-needs-driver",
+    "title": "SCR-3500A reader needs a manual driver on Mac",
+    "category": "reader",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "SCR-3500A is recognized but does not work.",
+    "causes": "Default macOS driver does not handle this model; Gatekeeper blocks the installer.",
+    "fix": "1. Download scmccid_mac_5.0.41.zip (or newer 5.0.39) from militarycac.com.\n2. Hold Control and click the .pkg > Open > confirm the security warning.\n3. Follow the installer.\n4. Restart the Mac.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/macnotes.htm",
+    "keywords": [
+      "scr-3500a",
+      "mac",
+      "driver"
+    ]
+  },
+  {
+    "id": "cac-reader-not-seen-by-activclient",
+    "title": "Smart Card service stopped - ActivClient reports no reader",
+    "category": "reader",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Device Manager shows the reader fine, but ActivClient says no reader / no card; the CAC tile is missing from the lock screen.",
+    "causes": "Windows 'Smart Card' service (SCardSvr) is not running or has lost the registry permissions LOCAL SERVICE needs.",
+    "fix": "1. Start > type services.msc.\n2. Find 'Smart Card'. Set Startup type to Automatic and click Start.\n3. Also start 'ActivIdentity Shared Store Service'.\nIf the service will not start:\n4. Open regedit and go to HKLM\\Software\\Microsoft\\Cryptography\\Calais.\n5. Right-click Calais > Permissions. Ensure LOCAL SERVICE is listed; if not, Add > type 'LOCAL SERVICE' > Check Names > OK.\n6. Select Local Service > Advanced > Edit > tick Allow for Query Value, Set Value, Create Subkey, Enumerate Subkeys, Notify, Delete, Read Control.\n7. Reboot, then start Smart Card and ActivClient Middleware services again.\nFor a faster fix, download the prebuilt Windows10-SCardSVR.zip from militarycac.com and merge the .reg file.",
+    "related_error_codes": [
+      "1920"
+    ],
+    "source_url": "https://militarycac.com/cacdrivers.htm",
+    "keywords": [
+      "smart card service",
+      "scardsvr",
+      "calais",
+      "activclient",
+      "1920"
+    ]
+  },
+  {
+    "id": "reader-no-reader-warning-laptop",
+    "title": "Stop 'No smart card reader' nagging on a laptop",
+    "category": "reader",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "ActivClient repeatedly warns there is no reader plugged in.",
+    "causes": "ActivClient Advanced Configuration default.",
+    "fix": "1. Start > All Programs > ActivIdentity > Advanced Configuration Manager.\n2. Select 'Notifications Management'.\n3. Double-click 'Display No Smart Card Reader Alert' so it flips from YES to NO.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "activclient",
+      "no reader",
+      "notification",
+      "laptop"
+    ]
+  },
+  {
+    "id": "reader-two-readers",
+    "title": "Use two CAC readers at the same time",
+    "category": "reader",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Want to keep the built-in reader and an external reader both available.",
+    "causes": "Workflow, not a defect.",
+    "fix": "With ActivClient:\n1. Double-click the ActivClient tray icon.\n2. File > Use Reader > select the second reader.\n3. Tools > Advanced > Make Certificates Available to Windows.\nWithout ActivClient (Windows 7/8/10/11 with native smart card stack):\n1. Plug in the second reader and use it - Windows handles it.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "two readers",
+      "multiple readers"
+    ]
+  },
+  {
+    "id": "approveit-tab-missing-office-2007",
+    "title": "ApproveIt tab missing in Word/Excel 2007",
+    "category": "signing",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "After installing ApproveIt, Word 2007 or Excel 2007 has no ApproveIt ribbon tab.",
+    "causes": "Add-in not registered for the current user profile, or the wrong bitness was installed.",
+    "fix": "1. In Word/Excel: Office button > Word/Excel Options > Add-Ins.\n2. At the bottom, change 'Manage:' to COM Add-ins > Go.\n3. Tick 'ApproveIt' and click OK.\n4. If ApproveIt is not in the list, click Add and browse to C:\\Program Files\\ApproveIt\\AprvOffice.dll.\n5. If still missing, create a new Windows user profile and install ApproveIt from that profile.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "approveit",
+      "office",
+      "word",
+      "excel",
+      "add-in"
+    ]
+  },
+  {
+    "id": "approveit-tab-missing-office-2010-2013",
+    "title": "ApproveIt tab missing in Word/Excel 2010 or 2013 (and 64-bit Office)",
+    "category": "signing",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "ApproveIt ribbon not visible in newer Office, or it appears in 32-bit Office but not 64-bit Office.",
+    "causes": "ApproveIt only ships a 32-bit COM add-in; 64-bit Office cannot load it. Office 2013 also has its own native signing surface.",
+    "fix": "1. Confirm Office is 32-bit (File > Account > About Word).\n2. If Office is 64-bit, either reinstall Office in 32-bit edition or use Office 2013's native signing (Insert > Signature Line) instead of ApproveIt.\n3. In 32-bit Office, re-enable the add-in via File > Options > Add-Ins > COM Add-ins > Go > tick ApproveIt.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "approveit",
+      "office 2013",
+      "office 2010",
+      "64-bit"
+    ]
+  },
+  {
+    "id": "ncoer-pdf-signing-mac",
+    "title": "Cannot open / sign NCOER PDF-F on Mac",
+    "category": "signing",
+    "platforms": [
+      "macos"
+    ],
+    "symptoms": "NCOER or other DoD PDF-F documents either fail to open or refuse to sign on Mac.",
+    "causes": "The Mac's built-in Preview does not implement CAC signing for PDF-F.",
+    "fix": "1. Install Adobe Acrobat Reader for Mac.\n2. Set Adobe Reader as the default PDF handler.\n3. Save the PDF-F locally first, then open with Adobe Reader.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/MacQuestions.htm",
+    "keywords": [
+      "ncoer",
+      "pdf-f",
+      "adobe reader",
+      "mac"
+    ]
+  },
+  {
+    "id": "lotus-one-or-more-signatures",
+    "title": "Lotus Forms 'One or more signatures could not be verified'",
+    "category": "signing",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Lotus Forms shows the signature line but cannot verify existing signatures.",
+    "causes": "Missing DoD certs, missing ApproveIt, or libeay32.dll out of date.",
+    "fix": "1. Install the latest DoD certificates.\n2. Confirm ApproveIt is installed; reboot.\n3. Apply the libeay32.dll copy fix (see Lotus null-pointer entry).",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "lotus forms",
+      "approveit",
+      "signature"
+    ]
+  },
+  {
+    "id": "lotus-null-pointer",
+    "title": "Lotus Forms / IBM Forms 'Null Pointer Dereferenced' error",
+    "category": "signing",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Opening a Lotus Forms / IBM Forms document throws an internal null-pointer error.",
+    "causes": "ApproveIt registry state corrupt, or the form is missing the libeay32.dll that ApproveIt expects.",
+    "fix": "1. Run the NullPointerFix.bat from militarycac.com (rename from .txt if browser blocks).\n2. Or open regedit and delete HKEY_CURRENT_USER\\Software\\VB and VBA Program Settings.\n3. Start > Programs > ApproveIt Desktop > ApproveIt Configuration > tick 'Sign using certificate or smart card' > OK.\n4. If still failing, copy libeay32.dll from C:\\Program Files\\ApproveIt (or Program Files (x86) on 64-bit) into the matching Forms Viewer 'extensions' and 'API\\80\\system' (or 'API\\76\\System' for Lotus Forms 3.5) folders.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "lotus forms",
+      "ibm forms",
+      "null pointer",
+      "libeay32"
+    ]
+  },
+  {
+    "id": "lotus-toolbar-ifx-missing",
+    "title": "Lotus Forms 4.0.0.477 'Toolbar IFX' missing",
+    "category": "signing",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Lotus Forms 4.0.0.477 throws 'Computer does not have required file installed (Toolbar IFX)'.",
+    "causes": "Lotus Forms 4.0.0.477 ships with a missing dependency.",
+    "fix": "1. Open command prompt as administrator.\n2. cd to C:\\Program Files\\IBM\\Forms Viewer\\4.0 (or C:\\Program Files (x86)\\IBM\\Forms Viewer\\4.0 on 64-bit).\n3. Run: masqform.exe /register.\n4. Restart Lotus Forms.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "lotus forms",
+      "toolbar ifx",
+      "masqform"
+    ]
+  },
+  {
+    "id": "rdp-reader-not-found",
+    "title": "'No card reader found' over Remote Desktop (RDP)",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "CAC works locally but the remote session over RDP cannot see the reader.",
+    "causes": "Misunderstanding of where ActivClient must be installed - it runs on the client side, redirecting the local reader into the remote session.",
+    "fix": "1. Install the CAC reader driver AND ActivClient on the LOCAL (viewing) computer.\n2. The reader on your local machine is then redirected into the RDP session - the remote host only needs the certificates.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "rdp",
+      "remote desktop",
+      "reader redirection"
+    ]
+  },
+  {
+    "id": "key-container-does-not-exist",
+    "title": "'Requested key container does not exist' on government PC logon",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Cannot log onto government computer with CAC; error mentions a missing key container.",
+    "causes": "Stale 'Forget State' on the card; another session locked something.",
+    "fix": "1. Use Switch User and log back in as yourself.\n2. If that fails, have a colleague log in, open ActivClient > Tools > Advanced > Forget State for all cards, then log off so you can try again.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "key container",
+      "activclient",
+      "forget state"
+    ]
+  },
+  {
+    "id": "vista-uac-blocks-activclient",
+    "title": "ActivClient install fails 'Call to DllRegisterServer failed' (Vista UAC)",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Error 0x80004005 during ActivClient install on Vista.",
+    "causes": "UAC is blocking the install.",
+    "fix": "1. Right-click the installer > Run as administrator.\n2. Or temporarily turn off UAC (Control Panel > User Accounts > Turn UAC on/off), install, then turn UAC back on.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "vista",
+      "uac",
+      "activclient",
+      "0x80004005"
+    ]
+  },
+  {
+    "id": "error-1316-installer-network-error",
+    "title": "ActivClient install fails with Error 1316 'A network error occurred'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Setup aborts with Error 1316.",
+    "causes": "Corrupt Windows Installer cache or corrupt user profile.",
+    "fix": "1. Use a 3rd-party uninstaller (Revo, GeekUninstaller, Total Uninstall, IObit, Ashampoo, or PC Decrapifier) to remove any prior ActivClient.\n2. Restart.\n3. Reinstall ActivClient.\n4. If it still fails, create a new local Windows user profile and install from that profile.",
+    "related_error_codes": [
+      "1316"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "1316",
+      "activclient",
+      "installer",
+      "profile"
+    ]
+  },
+  {
+    "id": "remove-certs-on-card-removal",
+    "title": "Auto-remove CAC certs from Windows when the card is ejected",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Personal certs from someone else's CAC remain in the user store after they remove their card.",
+    "causes": "ActivClient default leaves certificates available even after eject.",
+    "fix": "1. Open ActivClient (AC 6.2.0.x).\n2. Tools > Advanced > Configuration.\n3. Certificate Availability > set 'Remove certificates from Windows on smart card removal' to Yes.\n4. Reboot.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "activclient",
+      "remove certs",
+      "eject"
+    ]
+  },
+  {
+    "id": "windows-10-after-81-upgrade",
+    "title": "CAC stopped working after upgrading to Windows 10",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "CAC worked on Windows 8.1 but does not on Windows 10.",
+    "causes": "ActivClient 6.2.0.x or 7.0.1.x is incompatible with Windows 10.",
+    "fix": "1. Right-click the Windows logo > Apps and Features.\n2. Uninstall ActivClient.\n3. Reboot.\n4. Install ActivID 7.1.0.153 (or 7.4).\n5. Reboot and test.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/windows10.htm",
+    "keywords": [
+      "windows 10",
+      "activclient 6.2",
+      "upgrade"
+    ]
+  },
+  {
+    "id": "credentials-could-not-be-verified",
+    "title": "Cannot log onto government PC: 'Credentials could not be verified'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Inserting CAC at the lock screen returns 'The system could not log you on. Your credentials could not be verified.'",
+    "causes": "Many possible causes: machine off the domain for too long, missing/expired certificates, UPN mismatch between CAC and AD, Dual Persona user with wrong CAC, or DAR-encrypted profile not unlockable.",
+    "fix": "1. Have another user log in with their CAC and run the DoD InstallRoot tool to refresh certificates.\n2. Confirm with the help desk that your AD account still exists and is not locked.\n3. Verify network cable is connected; if machine has been off-network 45-60 days it may have been removed.\n4. Try a cached login: unplug network, log in, then plug network back in.\n5. Dual CAC holders must use the same CAC last used on this domain.\n6. In ActivClient, open My Certificates > double-click any cert > Advanced tab > scroll to Subject Alternative Name. The UPN must match your AD login name.\n7. If Credant DAR is installed, the data-at-rest layer may need decryption.\n8. Verify the Smart Card service is running (see cacdrivers.htm).\n9. Make sure the EDI-PI (10-digit) cert is being presented, not the legacy FASC-N (16-digit) cert.\n10. If you got a new CAC after June 11, 2016 and your account is one of the legacy types, ask for a fresh standard account - DISA had Root CA3/CA4 issues with the old type.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "credentials",
+      "logon",
+      "domain",
+      "upn",
+      "dar",
+      "edi-pi"
+    ]
+  },
+  {
+    "id": "ie-clear-old-certs",
+    "title": "Clear old / stale CAC certificates from Internet Explorer",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Browser keeps picking an old cert from a prior CAC.",
+    "causes": "Personal certificate store still holds the old certs.",
+    "fix": "1. IE > Tools > Internet Options > Content > Certificates > Personal tab.\n2. Select expired / unwanted entries and Remove.\n3. Repeat for Other People and Intermediate Certification Authorities if needed.\n4. Eject and reinsert CAC to repopulate.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "ie",
+      "personal certificates",
+      "clear old"
+    ]
+  },
+  {
+    "id": "windows-cert-cleanup-bat",
+    "title": "Clear stale certs with Cert_Cleanup.bat",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Cannot access certain CAC sites due to leftover bad certs after multiple CAC issuances.",
+    "causes": "Old certs in the personal store and intermediate store interfere with the current ones.",
+    "fix": "1. Download Cert_Cleanup.bat from militarycac.com (rename from .txt if the browser blocks .bat).\n2. Right-click > Run as administrator.\n3. Reboot.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "cert_cleanup",
+      "bat",
+      "windows"
+    ]
+  },
+  {
+    "id": "tls-pin-prompt-windows-native",
+    "title": "Constant PIN prompts using Windows native smart card stack",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Windows asks for the CAC PIN on every CAC site.",
+    "causes": "Windows native smart card stack does not cache PINs the way ActivClient does.",
+    "fix": "1. Install ActivID 7.1.0.153 or newer - it caches the PIN for ~15 minutes.\n2. Reboot.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "pin prompt",
+      "windows",
+      "activclient cache"
+    ]
+  },
+  {
+    "id": "docivilian-no-activclient-source",
+    "title": "DoD Civilians cannot find ActivClient to download",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "DoD civilian employee cannot locate the ActivClient installer because there is no centralized civilian download.",
+    "causes": "Distribution is delegated to each branch and to individual agencies.",
+    "fix": "1. Identify your hosting branch/agency.\n2. Use that branch's CAC software portal (Army, Navy, Air Force, Marines, Coast Guard each have separate pages linked from militarycac.com).\n3. If your agency does not host it, purchase a license from SCB Solutions (ActivClient 7.4) via the link on militarycac.com/activclient.htm.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/dodcivilian.htm",
+    "keywords": [
+      "dod civilian",
+      "activclient",
+      "download"
+    ]
+  },
+  {
+    "id": "dts-trusted-sites-fix",
+    "title": "DTS / DBSign stalls at 'Loading cryptographic libraries'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "DTS login hangs at the DBSign loading bar or returns a security info error.",
+    "causes": "*.osd.mil is not in Trusted Sites, or Protected Mode is on.",
+    "fix": "1. IE > Tools > Internet Options > Security > Trusted sites > Sites.\n2. Add *.osd.mil. Uncheck 'Require server verification (https:)'. Click Add > Close > OK.\n3. Back on the Security tab, select Internet (globe) > uncheck 'Enable Protected Mode' > Custom level.\n4. Restart IE.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "dts",
+      "dbsign",
+      "trusted sites",
+      "protected mode"
+    ]
+  },
+  {
+    "id": "dts-cannot-pass-logon-vista-win7-64bit",
+    "title": "DTS will not authenticate on 64-bit Vista or Windows 7",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "DTS shows the login page but the user cannot proceed.",
+    "causes": "64-bit Internet Explorer cannot run the DTS authentication ActiveX/Java pieces.",
+    "fix": "1. Open C:\\Program Files (x86)\\Internet Explorer\\.\n2. Double-click iexplore.exe (the ~622KB 32-bit copy).\n3. Pin or shortcut that 32-bit IE to your desktop.\n4. Use it for DTS.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "dts",
+      "32-bit ie",
+      "vista",
+      "windows 7"
+    ]
+  },
+  {
+    "id": "error-1920-smart-card-service",
+    "title": "Error 1920 'Service Smart Card failed to start'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Setup fails to start the Smart Card service.",
+    "causes": "SCardSvr registry permissions are damaged so LOCAL SERVICE cannot start it.",
+    "fix": "See the broader Smart Card service fix - register the LOCAL SERVICE account against HKLM\\Software\\Microsoft\\Cryptography\\Calais and grant Query/Set/Create/Notify/Delete permissions. The packaged registry-fix .zip from militarycac.com automates it.",
+    "related_error_codes": [
+      "1920"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "1920",
+      "smart card service",
+      "calais"
+    ]
+  },
+  {
+    "id": "fix-aero-buffer-overflow-cac-lock",
+    "title": "Government computer will not read the CAC after the lock screen",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Workstation cannot see the CAC after it locks; only a reboot fixes it.",
+    "causes": "Aero theme or registry permission causes buffer-overflow / write errors on resume.",
+    "fix": "1. Turn off Windows Aero theme (right-click desktop > Personalize > Basic theme).\n2. As a stopgap, unplug and replug the reader (or USB keyboard with built-in reader) when the lock screen does not see the card.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "aero",
+      "lock screen",
+      "cac",
+      "buffer overflow"
+    ]
+  },
+  {
+    "id": "error-1321-insufficient-privileges",
+    "title": "Install Error 1321 'insufficient privileges to modify the file'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Setup fails saying it cannot write to C:\\Program Files\\...",
+    "causes": "Not running elevated, or Windows file ACLs are damaged.",
+    "fix": "1. Right-click the installer > Run as administrator.\n2. If still failing, take ownership of the target Program Files folder (Properties > Security > Advanced > Owner > Administrators > Replace owner on subcontainers) and retry.",
+    "related_error_codes": [
+      "1321"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "1321",
+      "administrator",
+      "permissions"
+    ]
+  },
+  {
+    "id": "error-1324-invalid-character",
+    "title": "Install Error 1324 'The path contains an invalid character'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Setup aborts complaining about an invalid character in the path.",
+    "causes": "Shell folder registry values point at a path with illegal characters (often an old roaming-profile redirection).",
+    "fix": "1. Create a brand-new local Windows user account.\n2. Log in as that account and install ActivClient.\n3. Migrate data into the new profile.\n4. For the underlying fix see windowsxp.mvps.org/usershellfolders.htm.",
+    "related_error_codes": [
+      "1324"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "1324",
+      "shell folders",
+      "invalid path"
+    ]
+  },
+  {
+    "id": "error-1327-invalid-drive",
+    "title": "Install Error 1327 'Invalid Drive X'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Setup says 'Invalid Drive X' for some drive letter that is not C.",
+    "causes": "User Shell Folders registry values reference a drive that no longer exists (e.g. an old network drive H:).",
+    "fix": "1. Win+R > regedit.\n2. Go to HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders.\n3. Find any value whose data starts with a drive other than C: and edit it back to C:\\.\n4. Retry install.\nReferences: support.microsoft.com/kb/327763, error1327.net.",
+    "related_error_codes": [
+      "1327"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "1327",
+      "shell folders",
+      "registry",
+      "drive letter"
+    ]
+  },
+  {
+    "id": "error-1500-another-installation",
+    "title": "Install Error 1500 'Another installation is in progress'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "ActivClient setup refuses to start because Windows Installer thinks another install is running.",
+    "causes": "Stale msiserver state.",
+    "fix": "1. Reboot and try again.\n2. If still failing: Right-click This PC > Manage (as admin) > Services and Applications > Services > Windows Installer.\n3. Set Startup type to Disabled. Apply. Reboot.\n4. Reopen Services and set Windows Installer back to Manual. Apply.\n5. Retry install.",
+    "related_error_codes": [
+      "1500"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "1500",
+      "windows installer",
+      "msiexec"
+    ]
+  },
+  {
+    "id": "error-1722-script-failed",
+    "title": "Install Error 1722 'A program run as part of the setup did not finish as expected'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Setup runs partway and then errors with 1722.",
+    "causes": "An install script aborted, usually because of antivirus interference or a profile-specific permission problem.",
+    "fix": "1. Click OK to dismiss.\n2. Run Windows Update so the Windows Installer service is current.\n3. Temporarily disable antivirus and firewall.\n4. Right-click the installer > Run as administrator.\n5. If it still fails, create a new local user profile and install from there.\n6. As a last resort, reinstall Windows.",
+    "related_error_codes": [
+      "1722"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "1722",
+      "installer",
+      "antivirus"
+    ]
+  },
+  {
+    "id": "error-2738-vbscript",
+    "title": "Install Error 2738 'Could not access VBScript run time for custom action'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "ActivClient installer fails with Error 2738.",
+    "causes": "vbscript.dll is not registered, or an antivirus is blocking VBScript.",
+    "fix": "1. Start > type cmd > right-click Command Prompt > Run as administrator.\n2. 32-bit Windows: cd \\windows\\system32. 64-bit Windows: cd \\windows\\syswow64.\n3. Run: regsvr32 vbscript.dll. You should see 'DllRegisterServer in vbscript.dll succeeded'.\n4. If that does not work, in regedit delete HKEY_CURRENT_USER\\SOFTWARE\\Classes\\CLSID\\{B54F3741-5B07-11CF-A4B0-00AA004A55E8} (32-bit) or the same key under HKEY_LOCAL_MACHINE (64-bit), taking ownership first if needed. Reboot.\n5. Also try temporarily disabling McAfee, Symantec/Norton, or Kaspersky during install; use the official McAfee removal tool if McAfee is the culprit.",
+    "related_error_codes": [
+      "2738"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "2738",
+      "vbscript",
+      "regsvr32"
+    ]
+  },
+  {
+    "id": "error-2755-encrypted-file-system",
+    "title": "Install Error 2755 'Server returned unexpected error 110'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Installer fails citing the .msi cannot be opened.",
+    "causes": "Encrypted File System (EFS) on the source directory blocks Windows Installer from reading the package.",
+    "fix": "1. Copy the installer to an unencrypted FAT32 USB drive.\n2. Run setup from the USB.",
+    "related_error_codes": [
+      "2755"
+    ],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "2755",
+      "efs",
+      "encrypted file system",
+      "fat32"
+    ]
+  },
+  {
+    "id": "windows-default-pdf-adobe",
+    "title": "Set Adobe Reader as the default PDF handler",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "PDFs open in Edge or the built-in viewer and you cannot sign them.",
+    "causes": "Edge/built-in viewers do not support CAC signing.",
+    "fix": "Windows 10:\n1. Search > 'default'.\n2. Default Programs > 'Associate a file type or protocol with a program'.\n3. Find .pdf > Change program > Adobe Acrobat Reader.\nWindows 11:\n1. Save the PDF locally.\n2. Settings > Apps > Default apps > search '.pdf'.\n3. Set Adobe Acrobat Reader.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/windows10.htm",
+    "keywords": [
+      "pdf",
+      "default",
+      "adobe",
+      "edge"
+    ]
+  },
+  {
+    "id": "windows-system-restore-fallback",
+    "title": "Use System Restore when nothing else fixes the CAC",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Persistent CAC failure after recent changes to the system.",
+    "causes": "Recent Windows update, third-party install, or driver change corrupted CAC functionality.",
+    "fix": "1. Start > All Programs > Accessories > System Tools > System Restore.\n2. Pick a restore point from before the problem.\n3. Next > Next > restart.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/errorcodes.htm",
+    "keywords": [
+      "system restore",
+      "windows",
+      "rollback"
+    ]
+  },
+  {
+    "id": "windows-10-cert-more-choices",
+    "title": "Windows 10/11 hides the Authentication cert behind 'More choices'",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": "Certificate picker only shows the EMAIL cert; the PIV/Authentication cert is missing.",
+    "causes": "Windows 10/11 hides additional certs behind 'More choices'.",
+    "fix": "1. In the certificate dialog, click 'More choices'.\n2. Pick the certificate WITHOUT 'EMAIL' in its name (Authentication / Smart Card Logon).\n3. Click OK.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/windows10.htm",
+    "keywords": [
+      "windows 10",
+      "more choices",
+      "certificate"
+    ]
+  },
+  {
+    "id": "windows-zip-association",
+    "title": "Wrong program opens .zip files",
+    "category": "windows",
+    "platforms": [
+      "windows"
+    ],
+    "symptoms": ".zip files open in the wrong application after installing ActivClient or related software.",
+    "causes": "File association overridden during install.",
+    "fix": "Vista/7/8/10/11:\n1. Win+R > cmd > run as administrator.\n2. Run: assoc .zip=CompressedFolder.\nAlternative:\n1. Right-click any .zip > Open with > Choose another app.\n2. Browse C:\\Windows\\explorer.exe.\nXP:\n1. My Computer > Tools > Folder Options > File Types.\n2. Scroll to ZIP > Change.\n3. Pick 'Compressed (zipped) Folders' > OK.",
+    "related_error_codes": [],
+    "source_url": "https://militarycac.com/faqs.htm",
+    "keywords": [
+      "zip",
+      "association",
+      "compressedfolder"
+    ]
+  }
+]
